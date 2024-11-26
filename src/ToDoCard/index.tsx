@@ -1,19 +1,20 @@
 import { useEffect, useState } from "react";
-import { ToDoInterface } from "../interfaces";
 import { useDraggable } from "@dnd-kit/core";
+import { Todo } from "../Todo";
 
-export default function ToDoCard(props: {todo: ToDoInterface, abrirModal: (todo: ToDoInterface)=>void}){
+export default function ToDoCard(props: {todo: Todo, openModal: (todo: Todo)=>void}){
     const [dragging, setDragging] = useState(false)
     const {listeners, attributes, setNodeRef, transform} = useDraggable({
-        id: props.todo.id,
+        id: props.todo.getId(),
     })
     
-    const rgbColor = props.todo.color.match(/\d+/g);
+    const rgbColor = props.todo.getColor().match(/\d+/g);
     const [colorWhite, setColorWhite] = useState(false)
     
     const [isHovered, setIsHovered] = useState(false);
 
     function calculateTextColor(rgbColor: RegExpMatchArray | null): boolean {
+        //Return true if the color is bright enough to be black text
         if (!rgbColor) {
             return false;
         }
@@ -25,7 +26,7 @@ export default function ToDoCard(props: {todo: ToDoInterface, abrirModal: (todo:
     }
 
     const style = {
-        ["--color" as any]: props.todo.color,
+        ["--color" as any]: props.todo.getColor(),
         transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined,
         zIndex: '10'
     };
@@ -38,7 +39,7 @@ export default function ToDoCard(props: {todo: ToDoInterface, abrirModal: (todo:
     const handleDragEnd = ()=>setDragging(false)
     const handleClick = ()=>{
         if(!dragging){
-            props.abrirModal(props.todo)
+            props.openModal(props.todo)
         }
     }
 
@@ -54,8 +55,8 @@ export default function ToDoCard(props: {todo: ToDoInterface, abrirModal: (todo:
             onDragEnter={handleDragStart}
             onDragEnd={handleDragEnd}
         >
-            <div className="z-10 w-1 h-full absolute top-0 left-0 rounded-md" style={{backgroundColor: props.todo.color}}></div>
-            <h3 className="z-10 p-2 text-sm font-bold flex cursor-pointer group-hover:text-white" style={textStyle}>{props.todo.title}</h3>
+            <div className="z-10 w-1 h-full absolute top-0 left-0 rounded-md" style={{backgroundColor: props.todo.getColor()}}></div>
+            <h3 className="z-10 p-2 text-sm font-bold flex cursor-pointer group-hover:text-white" style={textStyle}>{props.todo.getTitle()}</h3>
         </div>
     </>
 }
