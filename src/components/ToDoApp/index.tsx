@@ -2,7 +2,7 @@ import useToDo from "../../hooks/useToDo"
 
 import ToDoList from "../ToDoList"
 import DNDWrapper from "../DNDWrapper"
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useState } from "react";
 import DraggingTodo from "../../interfaces/DraggingToDoInterface";
 
 const DraggingContext = createContext<React.Dispatch<React.SetStateAction<DraggingTodo | null>> | null>(null);
