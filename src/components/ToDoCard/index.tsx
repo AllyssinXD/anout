@@ -1,10 +1,45 @@
 import { useEffect, useState } from "react";
-import { useDraggable } from "@dnd-kit/core";
+import { useDndMonitor, useDraggable } from "@dnd-kit/core";
 import { ToDoEntity } from "../../entities/ToDoEntity";
+import { useDraggingContext } from "../ToDoApp";
 
 export default function ToDoCard(props: {todo: ToDoEntity, openModal: (todo: ToDoEntity)=>void}){
     const [dragging, setDragging] = useState(false)
-    const {listeners, attributes, setNodeRef, transform} = useDraggable({
+    const setDraggingToDo = useDraggingContext()
+    useDndMonitor({
+        onDragStart() {
+            setDragging(true)
+            if(!setDraggingToDo) return
+            setDraggingToDo({
+                title: props.todo.getTitle(),
+                getDescription: props.todo.getDescription,
+                color: props.todo.getColor(),
+                getX: ()=> 0,
+                getY: ()=> 0,
+            })
+
+        },
+
+        onDragEnd() {
+            setDragging(false)
+            if(setDraggingToDo) setDraggingToDo(null)
+        },
+
+        onDragMove(e) {
+            if(!setDraggingToDo) return
+            if(!e.active.rect.current.translated) return
+            if(!e.active.rect.current.translated.right) return
+            setDraggingToDo({
+                title: props.todo.getTitle(),
+                getDescription: props.todo.getDescription,
+                color: props.todo.getColor(),
+                getX: ()=> e.active.rect.current.translated ? e.active.rect.current.translated.right - e.active.rect.current.translated?.width : 0,
+                getY: ()=> e.active.rect.current.translated?.top || 0, 
+            })
+        }
+    })
+
+    const {listeners, attributes, setNodeRef} = useDraggable({
         id: props.todo.getId(),
     })
     
@@ -26,17 +61,13 @@ export default function ToDoCard(props: {todo: ToDoEntity, openModal: (todo: ToD
     }
 
     const style = {
-        ["--color" as any]: props.todo.getColor(),
-        transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : undefined,
-        zIndex: '10'
+        ["--color" as any]: props.todo.getColor()
     };
 
     const textStyle = {
         color: isHovered ? (colorWhite? 'rgb(255,255,255)' : 'rgb(0,0,0)') : 'rgb(0,0,0)'
     };
 
-    const handleDragStart = ()=>setDragging(true)
-    const handleDragEnd = ()=>setDragging(false)
     const handleClick = ()=>{
         if(!dragging){
             props.openModal(props.todo)
@@ -46,17 +77,15 @@ export default function ToDoCard(props: {todo: ToDoEntity, openModal: (todo: ToD
     useEffect(()=>{
         setColorWhite(calculateTextColor(rgbColor))
     }, [])
-    
+
     return <>
-        <div ref={setNodeRef} className={`todocard ${transform? 'absolute' : 'relative'} z-40 group bg-white w-44 min-h-10 mt-2 rounded-md border m-auto border-white-500`} style={style} {...attributes} {...listeners} 
+        <div ref={setNodeRef} className={`todocard relative z-40 group bg-white w-44 min-h-10 mt-2 rounded-md border m-auto border-white-500`} style={style} {...attributes} {...listeners} 
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={handleClick}
-            onDragEnter={handleDragStart}
-            onDragEnd={handleDragEnd}
         >
             <div className="z-10 w-1 h-full absolute top-0 left-0 rounded-md" style={{backgroundColor: props.todo.getColor()}}></div>
             <h3 className="z-10 p-2 text-sm font-bold flex cursor-pointer group-hover:text-white" style={textStyle}>{props.todo.getTitle()}</h3>
-        </div>
+        </div> 
     </>
 }

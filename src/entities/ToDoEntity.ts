@@ -37,7 +37,10 @@ export class ToDoEntity{
         this.description = description;
     }
 
-    setColor(color: string){
-        this.color = color;
+    setColor(r: number, g: number, b: number){
+        if(r > 255 || r < 0 || g > 255 || g < 0 || b > 255 || b < 0){
+            throw new Error("Invalid color");
+        }
+        this.color = `rgb(${r}, ${g}, ${b})`;
     }
 }

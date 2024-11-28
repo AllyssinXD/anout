@@ -3,7 +3,7 @@ import { ReactNode } from "react";
 import { DNDService } from "../../services/DNDService";
 import { ToDoListEntity } from "../../entities/ToDoListEntity";
 
-export function DNDWrapper(props: {children: ReactNode, lists: ToDoListEntity[], setLists: React.Dispatch<React.SetStateAction<ToDoListEntity[]>>}){
+export default function DNDWrapper(props: {children: ReactNode, lists: ToDoListEntity[], setLists: React.Dispatch<React.SetStateAction<ToDoListEntity[]>>}){
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: {
@@ -15,10 +15,11 @@ export function DNDWrapper(props: {children: ReactNode, lists: ToDoListEntity[],
 
     //Preciso de uma maneira de acessar listas aqui
 
-    return <DndContext 
+    return <DndContext
     onDragEnd={({active, over} : DragEndEvent)=>
         DNDService.handleDragEnd(props.lists, active, over, props.setLists)}
-     sensors={sensors}>
+    sensors={sensors}
+    >
         {props.children}
     </DndContext>
 }

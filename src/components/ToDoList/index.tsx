@@ -20,12 +20,8 @@ export default function ToDoList({list, editList}: Props){
     const [newTitle, setNewTitle] = useState(list.getTitle())
     const [selectedTodo, setSelectedTodo] = useState<ToDoEntity | null>(null)
     
-    const style = {
-        transform: isOver ? 'scale(1.1)' : 'scale(1)',
-    }
-
     return (
-        <div ref={setNodeRef} className={`relative container bg-white p-5 rounded-sm ${isOver ? 'shadow-xl' : 'shadow-md'} z-0 mr-5 w-64 min-h-5/6 max-h-96`} style={style}>
+        <div ref={setNodeRef} className={`relative container bg-white p-5 rounded-sm ${isOver ? 'shadow-xl' : 'shadow-md'} z-0 mr-5 w-64 min-h-5/6 max-h-96`}>
             <input
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
