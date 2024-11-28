@@ -1,11 +1,11 @@
-import { Todo } from "./Todo"
+import { ToDoEntity } from "./ToDoEntity"
 
-export class TodoList{
+export class ToDoListEntity{
     private id
     private title
     private todos
 
-    constructor(id: number, title: string, todos: Todo[]){
+    constructor(id: number, title: string, todos: ToDoEntity[]){
         this.id = id
         this.title = title
         this.todos = todos
@@ -23,11 +23,11 @@ export class TodoList{
         this.title = title
     }
 
-    getTodos(): Todo[]{
+    getTodos(): ToDoEntity[]{
         return this.todos
     }
 
-    addTodo(todo: Todo){
+    addTodo(todo: ToDoEntity){
         this.todos.push(todo)
     }
 
@@ -37,7 +37,7 @@ export class TodoList{
         })
     }
 
-    updateTodo(id: number, newTodo: Todo){
+    updateTodo(id: number, newTodo: ToDoEntity){
         const newTodos = this.todos.map((todo) => {
             if(todo.getId() === id){
                 return newTodo

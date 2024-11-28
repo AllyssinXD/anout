@@ -1,4 +1,4 @@
-export class Todo{
+export class ToDoEntity{
     private readonly id;
     private title;
     private description;

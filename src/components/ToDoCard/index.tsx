@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useDraggable } from "@dnd-kit/core";
-import { Todo } from "../Todo";
+import { ToDoEntity } from "../../entities/ToDoEntity";
 
-export default function ToDoCard(props: {todo: Todo, openModal: (todo: Todo)=>void}){
+export default function ToDoCard(props: {todo: ToDoEntity, openModal: (todo: ToDoEntity)=>void}){
     const [dragging, setDragging] = useState(false)
     const {listeners, attributes, setNodeRef, transform} = useDraggable({
         id: props.todo.getId(),

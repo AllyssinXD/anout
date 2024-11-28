@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import { TodoList } from '../TodoList';
-import { Todo } from '../Todo';
+import { ToDoListEntity } from '../../entities/ToDoListEntity';
+import { ToDoEntity } from '../../entities/ToDoEntity';
 
 interface TodoModalProps {
-  list: TodoList;
-  todo: Todo;
-  updateTodo: (list:TodoList, id:number, todo: Todo) => void;
-  removeTodo: (list:TodoList, id:number) => void;
+  list: ToDoListEntity;
+  todo: ToDoEntity;
+  updateTodo: (list:ToDoListEntity, id:number, todo: ToDoEntity) => void;
+  removeTodo: (list:ToDoListEntity, id:number) => void;
   closeModal: () => void;
 }
 

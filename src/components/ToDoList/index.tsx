@@ -4,12 +4,12 @@ import TodoModal from "../ToDoEditModal/index";
 import { useState } from "react";
 
 import { useDroppable } from "@dnd-kit/core";
-import { TodoList } from "../TodoList";
-import { Todo } from "../Todo";
+import { ToDoListEntity } from "../../entities/ToDoListEntity";
+import { ToDoEntity } from "../../entities/ToDoEntity";
 
 interface Props {
-    list: TodoList;
-    editList: (id: number, list: TodoList) => void;
+    list: ToDoListEntity;
+    editList: (id: number, list: ToDoListEntity) => void;
 }
     
 export default function ToDoList({list, editList}: Props){
@@ -18,7 +18,7 @@ export default function ToDoList({list, editList}: Props){
     })
     
     const [newTitle, setNewTitle] = useState(list.getTitle())
-    const [selectedTodo, setSelectedTodo] = useState<Todo | null>(null)
+    const [selectedTodo, setSelectedTodo] = useState<ToDoEntity | null>(null)
     
     const style = {
         transform: isOver ? 'scale(1.1)' : 'scale(1)',
@@ -41,7 +41,7 @@ export default function ToDoList({list, editList}: Props){
                 })}
                 <button className="border border-white-800 p-2 rounded-md m-auto w-40 block mt-10 mb-5 font-bold hover:bg-slate-200" 
                 onClick={()=>{
-                    list.addTodo(new Todo("New Todo"))
+                    list.addTodo(new ToDoEntity("New Todo"))
                     editList(list.getId(), list)
                 }}>Create</button>
             </div>
