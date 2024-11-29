@@ -10,9 +10,10 @@ import { ToDoEntity } from "../../entities/ToDoEntity";
 interface Props {
     list: ToDoListEntity;
     editList: (id: number, list: ToDoListEntity) => void;
+    removeList: (id: number) => void;
 }
     
-export default function ToDoList({list, editList}: Props){
+export default function ToDoList({list, editList, removeList}: Props){
     const {isOver, setNodeRef} = useDroppable({
         id: list.getId()
     })
@@ -22,15 +23,23 @@ export default function ToDoList({list, editList}: Props){
     
     return (
         <div ref={setNodeRef} className={`relative container bg-white p-4 rounded-lg ${isOver ? 'shadow-xl' : 'shadow-md'} z-0 mr-5 w-64 h-fit`}>
-            <input
-                value={newTitle}
-                onChange={(e) => setNewTitle(e.target.value)}
-                onBlur={() => {
-                    list.setTitle(newTitle)
-                    editList(list.getId(), list)
-                }}
-                className="font-bold"
-            />
+            <div className="flex items-center justify-between">
+                <input
+                    value={newTitle}
+                    onChange={(e) => setNewTitle(e.target.value)}
+                    onBlur={() => {
+                        list.setTitle(newTitle)
+                        editList(list.getId(), list)
+                    }}
+                    className="w-32 font-bold"
+                />
+                <button className="border w-10 h-10 border-white-800 p-2 rounded-md block font-bold hover:bg-slate-200" 
+                    onClick={()=>{
+                        removeList(list.getId())
+                    }}>
+                        <img style={{transform: "rotate(45deg)"}} src="/images/icons/add.svg"/>
+                    </button>
+            </div>
             <div className='mt-5 h-5/6 flex flex-col justify-between'>
                 {list.getTodos().map((todo) => {
                     return <ToDoCard key={todo.getId()} todo={todo} openModal={() => {setSelectedTodo(todo)}}/>

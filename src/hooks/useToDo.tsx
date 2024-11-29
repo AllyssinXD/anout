@@ -20,5 +20,10 @@ export default function useToDo(){
         setLists(newLists)
     }
 
-    return {lists, setLists, addList, editList, draggingToDo, setDraggingToDo}
+    const removeList = (id: number)=>{
+      const newLists = lists.filter((l) => l.getId() !== id)
+      setLists(newLists)
+    }
+
+    return {lists, setLists, addList, editList, removeList, draggingToDo, setDraggingToDo}
 }
