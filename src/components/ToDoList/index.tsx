@@ -21,7 +21,7 @@ export default function ToDoList({list, editList}: Props){
     const [selectedTodo, setSelectedTodo] = useState<ToDoEntity | null>(null)
     
     return (
-        <div ref={setNodeRef} className={`relative container bg-white p-5 rounded-sm ${isOver ? 'shadow-xl' : 'shadow-md'} z-0 mr-5 w-64 min-h-5/6 max-h-96`}>
+        <div ref={setNodeRef} className={`relative container bg-white p-4 rounded-lg ${isOver ? 'shadow-xl' : 'shadow-md'} z-0 mr-5 w-64 h-fit`}>
             <input
                 value={newTitle}
                 onChange={(e) => setNewTitle(e.target.value)}
@@ -31,15 +31,19 @@ export default function ToDoList({list, editList}: Props){
                 }}
                 className="font-bold"
             />
-            <div className='pt-4 rounded-lg  mt-5 h-5/6 overflow-y-scroll'>
+            <div className='mt-5 h-5/6 flex flex-col justify-between'>
                 {list.getTodos().map((todo) => {
                     return <ToDoCard key={todo.getId()} todo={todo} openModal={() => {setSelectedTodo(todo)}}/>
                 })}
-                <button className="border border-white-800 p-2 rounded-md m-auto w-40 block mt-10 mb-5 font-bold hover:bg-slate-200" 
+
+
+                <button className="border mt-5 w-10 border-white-800 p-2 rounded-md m-auto block font-bold hover:bg-slate-200" 
                 onClick={()=>{
                     list.addTodo(new ToDoEntity("New Todo"))
                     editList(list.getId(), list)
-                }}>Create</button>
+                }}>
+                    <img src="/images/icons/add.svg"/>
+                </button>
             </div>
 
             

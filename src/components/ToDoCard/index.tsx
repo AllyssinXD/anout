@@ -11,7 +11,7 @@ export default function ToDoCard(props: {todo: ToDoEntity, openModal: (todo: ToD
             onClick={handleClick}
         >
             <div className="z-10 w-1 h-full absolute top-0 left-0 rounded-md" style={{backgroundColor: props.todo.getColor()}}></div>
-            <h3 className="z-10 p-2 text-sm font-bold flex cursor-pointer group-hover:text-white" style={textStyle}>{props.todo.getTitle()}</h3>
+            <h3 className="z-10 p-2 text-sm flex cursor-pointer group-hover:text-white" style={textStyle}>{props.todo.getTitle()}</h3>
         </div> 
     </>
 }
