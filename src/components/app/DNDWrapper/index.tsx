@@ -1,7 +1,7 @@
 import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { ReactNode } from "react";
-import { DNDService } from "../../services/DNDService";
-import { ToDoListEntity } from "../../entities/ToDoListEntity";
+import { DNDService } from "../../../services/DNDService";
+import { ToDoListEntity } from "../../../entities/ToDoListEntity";
 
 export default function DNDWrapper(props: {children: ReactNode, lists: ToDoListEntity[], setLists: React.Dispatch<React.SetStateAction<ToDoListEntity[]>>}){
     const sensors = useSensors(

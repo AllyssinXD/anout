@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Feedback from "./Feedback";
-import { Action } from "@dnd-kit/core/dist/store";
 import AllProjects from "./AllProjects";
 
 function AccountArea(){
@@ -16,7 +15,7 @@ function AccountArea(){
             </div>
 }
 
-function MenuItem({id, label, iconUrl, type, actions, onClick, selectedItem}: {id:string, label: string, iconUrl:string, type?: string, actions?: Function[], onClick: Function, selectedItem: string | null}){
+function MenuItem({id, label, iconUrl, actions, onClick, selectedItem}: {id:string, label: string, iconUrl:string, type?: string, actions?: Function[], onClick: Function, selectedItem: string | null}){
     return <div onClick={(e)=>{
         onClick(e.currentTarget.id)
         if(actions){

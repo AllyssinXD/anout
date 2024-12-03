@@ -1,10 +1,10 @@
-import useToDo from "../../hooks/useToDo"
+import useToDo from "../../../hooks/useToDo"
 
 import ToDoList from "../ToDoList"
 import DNDWrapper from "../DNDWrapper"
 import React, { createContext, useContext, useEffect, useState } from "react";
-import DraggingTodo from "../../interfaces/DraggingToDoInterface";
-import ProjectInterface from "../../interfaces/ProjectInterface";
+import DraggingTodo from "../../../interfaces/DraggingToDoInterface";
+import ProjectInterface from "../../../interfaces/ProjectInterface";
 
 const DraggingContext = createContext<React.Dispatch<React.SetStateAction<DraggingTodo | null>> | null>(null);
 export const useDraggingContext = () => useContext(DraggingContext);

@@ -1,5 +1,5 @@
 import { useDndMonitor, useDraggable } from "@dnd-kit/core"
-import { useDraggingContext } from "../components/ToDoApp"
+import { useDraggingContext } from "../components/app/ToDoApp"
 import { useEffect, useState } from "react"
 import { ToDoEntity } from "../entities/ToDoEntity"
 

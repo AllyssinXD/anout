@@ -1,5 +1,5 @@
-import { ToDoEntity } from "../../entities/ToDoEntity";
-import useToDoCard from "../../hooks/useToDoCard";
+import { ToDoEntity } from "../../../entities/ToDoEntity";
+import useToDoCard from "../../../hooks/useToDoCard";
 
 export default function ToDoCard(props: {todo: ToDoEntity, openModal: (todo: ToDoEntity)=>void}){
     const {listeners, attributes, setNodeRef, handleClick, setIsHovered, style,textStyle} = useToDoCard(props)

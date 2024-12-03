@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
-import { ToDoListEntity } from '../../entities/ToDoListEntity';
-import { ToDoEntity } from '../../entities/ToDoEntity';
+import { ToDoListEntity } from '../../../entities/ToDoListEntity';
+import { ToDoEntity } from '../../../entities/ToDoEntity';
 
 interface TodoModalProps {
   list: ToDoListEntity;

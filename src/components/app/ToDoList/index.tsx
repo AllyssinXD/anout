@@ -4,8 +4,8 @@ import TodoModal from "../ToDoEditModal/index";
 import { useState } from "react";
 
 import { useDroppable } from "@dnd-kit/core";
-import { ToDoListEntity } from "../../entities/ToDoListEntity";
-import { ToDoEntity } from "../../entities/ToDoEntity";
+import { ToDoListEntity } from "../../../entities/ToDoListEntity";
+import { ToDoEntity } from "../../../entities/ToDoEntity";
 
 interface Props {
     list: ToDoListEntity;

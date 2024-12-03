@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { ToDoApp } from './components/ToDoApp';
-import UserDashboard from './components/UserDashboard';
+import { ToDoApp } from './components/app/ToDoApp';
+import UserDashboard from './components/user-dashboard';
 import ProjectInterface from './interfaces/ProjectInterface';
 
 function App() {
