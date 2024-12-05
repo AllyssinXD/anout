@@ -5,7 +5,7 @@ export default function ToDoCard(props: {todo: ToDoEntity, openModal: (todo: ToD
     const {listeners, attributes, setNodeRef, handleClick, setIsHovered, style,textStyle} = useToDoCard(props)
 
     return <>
-        <div ref={setNodeRef} className={`todocard relative z-40 group bg-white w-44 min-h-10 mt-2 rounded-md border m-auto border-white-500`} style={style} {...attributes} {...listeners} 
+        <div ref={setNodeRef} className={`todocard relative w-full z-40 group bg-white min-h-10 mt-2 rounded-md border m-auto border-white-500`} style={style} {...attributes} {...listeners} 
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onClick={handleClick}

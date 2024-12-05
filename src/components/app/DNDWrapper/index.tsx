@@ -1,9 +1,9 @@
 import { DndContext, DragEndEvent, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { ReactNode } from "react";
 import { DNDService } from "../../../services/DNDService";
-import { ToDoListEntity } from "../../../entities/ToDoListEntity";
+import { useAppContext } from "../../../context/AppProvider";
 
-export default function DNDWrapper(props: {children: ReactNode, lists: ToDoListEntity[], setLists: React.Dispatch<React.SetStateAction<ToDoListEntity[]>>}){
+export default function DNDWrapper(props: {children: ReactNode}){
     const sensors = useSensors(
         useSensor(PointerSensor, {
             activationConstraint: {
@@ -13,11 +13,13 @@ export default function DNDWrapper(props: {children: ReactNode, lists: ToDoListE
         })
     );
 
+    const appContext = useAppContext();
+
     //Preciso de uma maneira de acessar listas aqui
 
     return <DndContext
     onDragEnd={({active, over} : DragEndEvent)=>
-        DNDService.handleDragEnd(props.lists, active, over, props.setLists)}
+        DNDService.handleDragEnd(appContext.lists, active, over, appContext.setLists)}
     sensors={sensors}
     >
         {props.children}

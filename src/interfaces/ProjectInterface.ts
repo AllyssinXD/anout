@@ -1,4 +1,4 @@
-import { ToDoListEntity } from "../entities/ToDoListEntity";
+import { ToDoListEntity } from "../entities/ListEntity";
 
 export default interface ProjectInterface{
     id: string,

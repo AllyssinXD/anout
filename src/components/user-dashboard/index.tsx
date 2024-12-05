@@ -1,6 +1,5 @@
-import { useState } from "react";
-import Feedback from "./Feedback";
-import AllProjects from "./AllProjects";
+import { useEffect } from "react";
+import { Outlet, useLocation, useNavigate } from "react-router";
 
 function AccountArea(){
     return <div className="userAccount p-4 flex items-center justify-between">
@@ -15,18 +14,23 @@ function AccountArea(){
             </div>
 }
 
-function MenuItem({id, label, iconUrl, actions, onClick, selectedItem}: {id:string, label: string, iconUrl:string, type?: string, actions?: Function[], onClick: Function, selectedItem: string | null}){
-    return <div onClick={(e)=>{
-        onClick(e.currentTarget.id)
-        if(actions){
-            actions.forEach(action => {
-                action()
-            });
-        }
-    }} id={id} className={`p-1 px-4 rounded-sm w-full h-8 flex items-center cursor-pointer hover:bg-gray-100 ${selectedItem == id? "bg-cyan-100" : ""}`}>
-            <img className="h-4/5 opacity-80 mr-4" src={iconUrl}/>
-            <span className="text-xs mx-2">{label}</span>
-        </div>
+function MenuItem({id, label, iconUrl}: {id:string, label: string, iconUrl:string, type?: string}){
+    const location = useLocation();
+    const navigate = useNavigate();
+    
+    //Compare location pathname with id, if equals, add class "bg-blue-100"
+    //Make sure that the pathname its only the part after the "/"
+
+    return (
+            <div 
+                onClick={()=>{navigate(id)}}
+                id={id}
+                className={`p-1 px-4 rounded-sm w-full h-8 flex items-center cursor-pointer hover:bg-gray-100 ${location.pathname.replace("/", "") == id ? "bg-cyan-100" : ""}`}
+            >
+                <img className="h-4/5 opacity-80 mr-4" src={iconUrl}/>
+                <span className="text-xs mx-2">{label}</span>
+            </div>
+        )
 }
 
 function PlanBlock(){
@@ -37,34 +41,33 @@ function PlanBlock(){
         </div>
 }
 
-export default function UserDashboard({setProject}:{setProject: Function}){
-    const [selectedItem, setSelectedItem] = useState<string | null>(null)
-    const [activeContent, setActiveContent] = useState<string | null>(null)
-
+export default function UserDashboard(){
     const menuItemsTop = [
-        {label: "Recents", iconUrl: "/images/icons/clock.svg", actions: [()=>{setActiveContent("")}]},
-        {label: "All Projects", iconUrl: "/images/icons/file.svg", actions: [()=>{setActiveContent("all-projects")}]},
-        {label: "Shared", iconUrl: "/images/icons/shared.svg", actions: [()=>{setActiveContent("")}]},
+        {id: "recents", label: "Recents", iconUrl: "/images/icons/clock.svg"},
+        {id: "all-projects", label: "All Projects", iconUrl: "/images/icons/file.svg"},
+        {id: "shared", label: "Shared", iconUrl: "/images/icons/shared.svg"},
     ]
 
     const menuItemsBottom = [
-        {label: "Send Feedback", iconUrl: "/images/icons/like.svg", actions: [()=>{setActiveContent("feedback")}]},
+        {id: "send-feedback", label: "Send Feedback", iconUrl: "/images/icons/like.svg"},
     ]
 
-    const handleMenuItemClicked = (id: string)=>{
-        setSelectedItem(id)
-    }
+    useEffect(()=>{
+        console.log("AAAAAAAAAAA")
+    },[])
 
     return <div className="flex">
+
         <div className="sideMenu min-w-72 h-screen flex flex-col border overflow-y-auto">
             <AccountArea/>
-            {menuItemsTop.map((item, i)=><MenuItem onClick={handleMenuItemClicked} key={i} id={(i).toString()} label={item.label} iconUrl={item.iconUrl} selectedItem={selectedItem} actions={item.actions}/> )}
+            {menuItemsTop.map((item, i)=><MenuItem key={i} id={item.id} label={item.label} iconUrl={item.iconUrl}/> )}
             <PlanBlock/>
-            {menuItemsBottom.map((item, i)=><MenuItem onClick={handleMenuItemClicked} key={i} id={(i + menuItemsTop.length).toString()} label={item.label} iconUrl={item.iconUrl} selectedItem={selectedItem} actions={item.actions}/> )}
+            {menuItemsBottom.map((item, i)=><MenuItem key={i} id={item.id} label={item.label} iconUrl={item.iconUrl}/> )}
         </div>
+
         <div className="content w-full">
-            {activeContent == "feedback" ? <Feedback/> : null}
-            {activeContent == "all-projects" ? <AllProjects setProject={setProject}/> : null}
+            <Outlet/>
         </div>
+        
     </div>;
 }

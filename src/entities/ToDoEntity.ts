@@ -4,16 +4,16 @@ export class ToDoEntity{
     private description;
     private color;
 
-    constructor(title: string){
-        this.id = Date.now();
+    constructor(id: string, title: string, description: string, color?: string){
+        this.id = id;
         this.title = title;
-        this.description = "";
-        this.color = `rgb(${Math.floor(Math.random()*255)},
+        this.description = description;
+        this.color = color ? color : `rgb(${Math.floor(Math.random()*255)},
          ${Math.floor(Math.random()*255)},
           ${Math.floor(Math.random()*255)})`;
     }
 
-    getId(): number{
+    getId(): string{
         return this.id;
     }
 

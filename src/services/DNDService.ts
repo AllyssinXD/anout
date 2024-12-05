@@ -2,10 +2,11 @@ import { TodoService } from './TodoService';
 
 export class DNDService {
     static handleDragEnd(lists: any[], active: any, over: any, setLists: (lists: any[]) => void) {
+        //handling only in front-end
         if (!active || !over) return;
 
-        const id = Number.parseInt(active.id.toString());
-        const overId = Number.parseInt(over.id.toString());
+        const id = active.id.toString();
+        const overId = over.id.toString();
 
         const todo = TodoService.getTodoById(lists, id);
         const fromList = TodoService.getListFromTodo(lists, todo!);

@@ -1,8 +1,8 @@
 import { ToDoEntity } from "../entities/ToDoEntity"
-import { ToDoListEntity } from "../entities/ToDoListEntity"
+import ListEntity  from "../entities/ListEntity"
 
 export class TodoService{
-    static getTodoById(lists: ToDoListEntity[], id: number): ToDoEntity | undefined{
+    static getTodoById(lists: ListEntity[], id: string): ToDoEntity | undefined{
         for(const list of lists){
           const todo = list.getTodos().find(t => t.getId() == id)
           if(todo){
@@ -12,7 +12,7 @@ export class TodoService{
         return
       }
       
-      static getListFromTodo(lists: ToDoListEntity[], todo: ToDoEntity) : ToDoListEntity | undefined{
+      static getListFromTodo(lists: ListEntity[], todo: ToDoEntity) : ListEntity | undefined{
         for(const list of lists){
           const todoInList = list.getTodos().find(t => t.getId() == todo.getId())
           if(todoInList){
@@ -22,7 +22,7 @@ export class TodoService{
         return
       }
     
-      static getListById(lists: ToDoListEntity[], id: number): ToDoListEntity | undefined{
+      static getListById(lists: ListEntity[], id: string): ListEntity | undefined{
         for(const list of lists){
           if(list.getId() === id){
             return list
@@ -31,7 +31,7 @@ export class TodoService{
         return
       }
 
-      static transferTodo(fromList: ToDoListEntity, toList: ToDoListEntity, todo: ToDoEntity){
+      static transferTodo(fromList: ListEntity, toList: ListEntity, todo: ToDoEntity){
         fromList.removeTodo(todo.getId())
         toList.addTodo(todo)
       }
