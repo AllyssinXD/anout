@@ -1,7 +1,8 @@
 import { TodoService } from './TodoService';
 
 export class DNDService {
-    static handleDragEnd(lists: any[], active: any, over: any, setLists: (lists: any[]) => void) {
+    static handleDragEnd(lists: any[], active: any, over: any, setLists: (lists: any[]) => void, editList: (id:string, newList: any) => void) {
+        
         //handling only in front-end
         if (!active || !over) return;
 
@@ -14,7 +15,14 @@ export class DNDService {
 
         if (!todo || !fromList || !toList) return;
 
+        console.log(fromList, toList)
+
         TodoService.transferTodo(fromList, toList, todo);
+
+        console.log(fromList, toList)
+
+        editList(fromList.id, fromList)
+        editList(toList.id, toList)
 
         setLists([...lists]);
     }

@@ -1,8 +1,8 @@
 export class ToDoEntity{
-    private readonly id;
-    private title;
-    private description;
-    private color;
+    id: string;
+    title: string;
+    description: string;
+    color: string;
 
     constructor(id: string, title: string, description: string, color?: string){
         this.id = id;

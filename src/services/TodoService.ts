@@ -4,7 +4,7 @@ import ListEntity  from "../entities/ListEntity"
 export class TodoService{
     static getTodoById(lists: ListEntity[], id: string): ToDoEntity | undefined{
         for(const list of lists){
-          const todo = list.getTodos().find(t => t.getId() == id)
+          const todo = list.getTodos().find(t => t.id == id)
           if(todo){
             return todo
           }
@@ -14,7 +14,7 @@ export class TodoService{
       
       static getListFromTodo(lists: ListEntity[], todo: ToDoEntity) : ListEntity | undefined{
         for(const list of lists){
-          const todoInList = list.getTodos().find(t => t.getId() == todo.getId())
+          const todoInList = list.getTodos().find(t => t.id == todo.id)
           if(todoInList){
             return list
           }
@@ -32,7 +32,7 @@ export class TodoService{
       }
 
       static transferTodo(fromList: ListEntity, toList: ListEntity, todo: ToDoEntity){
-        fromList.removeTodo(todo.getId())
+        fromList.removeTodo(todo.id)
         toList.addTodo(todo)
       }
 }

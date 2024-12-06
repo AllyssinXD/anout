@@ -50,13 +50,13 @@ class ListEntity {
   
   removeTodo(id: string){
     this.todos = this.todos.filter((todo) => {
-        return todo.getId() !== id
+        return todo.id !== id
     })
   }
   
   updateTodo(id: string, newTodo: ToDoEntity){
     const newTodos = this.todos.map((todo) => {
-        if(todo.getId() === id){
+        if(todo.id === id){
             return newTodo
         }
         return todo

@@ -2,38 +2,31 @@ import axios from "axios";
 import { ToDoEntity } from "../entities/ToDoEntity";
 import ProjectEntity from "../entities/ProjectEntity";
 import ListEntity from "../entities/ListEntity";
+import ListService from "./ListService";
 
 class ProjectService {
   constructor(private baseUrl: string) {}
 
+  async loadProject(projectId: string, token: string): Promise<ListEntity[]> {
+    const listService = new ListService(this.baseUrl);
+    return listService.getListsByProjectId(projectId, token);
+  }
+
   // Função para adicionar uma nova lista a um projeto
-  async loadProjects(userId: string): Promise<ProjectEntity[]> {
-    if (!userId) {
+  async loadProjects(token: string): Promise<ProjectEntity[]> {
+    if (!token) {
       throw new Error("userId are required.");
     }
-    return axios.get(`${this.baseUrl}/projects`, {
+
+    const response = await axios.get(`${this.baseUrl}/projects`, {
         withCredentials: true,
         headers: {
+            'Authorization': token,
             'Content-Type': 'application/json'
         }
     });
-  }
 
-  // Função para carregar listas de um projeto
-  async getListsByProjectId(project_id: string): Promise<ListEntity[]> {
-    if (!project_id) {
-      throw new Error("Project ID is required.");
-    }
-
-    const response = await fetch(`${this.baseUrl}/projects/${project_id}/lists`);
-    if (!response.ok) {
-      throw new Error("Failed to fetch lists.");
-    }
-
-    const data = await response.json();
-    return data.map((list: any) => 
-      new ListEntity(list.id, list.name, project_id, new Date(list.createdAt), new Date(list.updatedAt), list.todos || [])
-    );
+    return response.data.projects;
   }
 
   // Função para excluir uma lista

@@ -32,9 +32,9 @@ class ProjectEntity {
     }
   
     // Adds a member to the project
-    addMember(userId: string, role: 'viewer' | 'editor'): void {
+    addMember(userId: string, username: string, role: 'viewer' | 'editor'): void {
       if (!this.members.find((member) => member.user_id === userId)) {
-        this.members.push({ user_id: userId, role });
+        this.members.push({ user_id: userId, username, role });
       }
     }
   
@@ -66,7 +66,8 @@ class ProjectEntity {
   
   // Member interface to represent each user's role in the project
   interface Member {
-    user_id: string; // ID of the user
+    user_id: string;
+    username: string; // ID of the user
     role: 'viewer' | 'editor'; // Role in the project
   }
   

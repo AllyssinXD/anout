@@ -16,8 +16,8 @@ export default function useLoadProject(project_id: string | undefined): ProjectE
     new Date(), // Data de atualização
     new Date(), // Último acesso
     [
-      { userId: "user123", role: "editor" }, // Membros com papel no projeto
-      { userId: "user456", role: "viewer" },
+      { user_id:"1", username: "user123", role: "editor" }, // Membros com papel no projeto
+      { user_id:"2", username: "user456", role: "viewer" },
     ],
     false // Status de arquivamento
   );
