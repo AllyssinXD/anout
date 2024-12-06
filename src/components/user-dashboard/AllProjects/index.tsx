@@ -11,8 +11,6 @@ export default function AllProjects() {
   const [projects, setProjects] = useState<ProjectEntity[]>([]);
 
   useEffect(() => {
-    console.log(projects);
-
     projectService
       .loadProjects(
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwOWExMTA0OGIwMjlmZTdiYjllYjgiLCJpYXQiOjE3MzM0NDE2ODcsImV4cCI6MTczMzUyODA4N30.nFjqH4xw_9QLWA26gldxDeouqjU7PBGmAEfMHMseKxk"

@@ -74,17 +74,23 @@ class ListService {
    * Exclui uma lista pelo ID.
    * @param list_id ID da lista.
    */
-  async deleteList(list_id: string): Promise<void> {
-    if (!list_id) {
+  async deleteList(listId: string, token: string): Promise<void> {
+    if (!listId) {
       throw new Error("List ID is required.");
     }
 
-    const response = await fetch(`${this.baseUrl}/lists/${list_id}`, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      throw new Error("Failed to delete list.");
+    try {
+      await axios.delete(
+        `${this.baseUrl}/projects/lists/${listId}`,
+        {
+          headers: {
+            Authorization: token?token:''
+          }
+        }
+      );
+    } catch(err){
+      console.error("Failed to update list:", err);
+      throw new Error("Failed to update list");
     }
   }
 
@@ -139,8 +145,16 @@ class ListService {
     }
   }
 
-  async addToDoToList(list: ListEntity, token: string): Promise<number>{
-      return 0;
+  async addToDoToList(list: ListEntity, token: string): Promise<ToDoEntity[]>{
+    const response = await axios.post(
+      `${this.baseUrl}/projects/lists/${list.id}/createToDo`,{},{
+        headers: {
+          Authorization: token?token:''
+        }
+      }
+    );
+
+    return response.data.update.todos;
   }
 }
 

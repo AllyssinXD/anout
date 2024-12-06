@@ -2,14 +2,36 @@ import axios from "axios";
 import { ToDoEntity } from "../entities/ToDoEntity";
 import ProjectEntity from "../entities/ProjectEntity";
 import ListEntity from "../entities/ListEntity";
-import ListService from "./ListService";
 
 class ProjectService {
   constructor(private baseUrl: string) {}
 
-  async loadProject(projectId: string, token: string): Promise<ListEntity[]> {
-    const listService = new ListService(this.baseUrl);
-    return listService.getListsByProjectId(projectId, token);
+  async loadProject(projectId: string, token: string): Promise<ProjectEntity> {
+    if (!token) {
+      throw new Error("userId are required.");
+    }
+
+    const response = await axios.get(`${this.baseUrl}/projects/${projectId}`, {
+        withCredentials: true,
+        headers: {
+            'Authorization': token,
+            'Content-Type': 'application/json'
+        }
+    });
+
+    const project = response.data.project;
+
+    return new ProjectEntity(
+      project._id,
+      project.name,
+      project.description,
+      project.ownerId,
+      project.createdAt,
+      project.updatedAt,
+      project.lastAccessed,
+      project.members,
+      project.isArchived
+    );
   }
 
   // Função para adicionar uma nova lista a um projeto
@@ -72,7 +94,39 @@ class ProjectService {
         console.error("Failed to update list:", error);
         throw new Error("Failed to update list");
     }
-}
+  }
+
+  async updateProject(projectId:string, newProject: ProjectEntity, token: string):Promise<ProjectEntity>{
+    try {
+      const reponse = await axios.put(
+          `${this.baseUrl}/projects/${projectId}`, // Endpoint do backend para atualizar a lista
+          {
+              name: newProject.name,
+              description: newProject.description,
+              ownerId: newProject.ownerId,
+              members: newProject.members,
+              createdAt: newProject.createdAt,
+              lastAccessed: newProject.lastAccessed
+          },
+          {
+            withCredentials: true,
+            headers: {
+                'Authorization': token,
+                'Content-Type': 'application/json'
+            }
+          }
+      );
+
+      return newProject;
+    } catch (error) {
+        console.error("Failed to update list:", error);
+        throw new Error("Failed to update list");
+    }
+  }
+
+  placeHolder(): ProjectEntity{
+    return new ProjectEntity('0', 'Project', '', '',new Date() ,new Date(), new Date(),[]);
+  }
 }
 
 export default ProjectService;

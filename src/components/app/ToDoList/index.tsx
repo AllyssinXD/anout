@@ -27,7 +27,7 @@ export default function ToDoList({ list }: Props) {
       ref={setNodeRef}
       className={`relative container bg-white p-4 rounded-lg ${
         isOver ? "shadow-xl" : "shadow-md"
-      } z-0 mr-5 min-w-64 w-64 h-fit`}
+      } z-0 mx-5 min-w-64 w-64 h-fit`}
     >
       <div className="flex items-center justify-between">
         <input
@@ -43,9 +43,7 @@ export default function ToDoList({ list }: Props) {
           className="border w-10 h-10 border-white-800 p-2 rounded-md block font-bold hover:bg-slate-200"
           onClick={() => {
             //Remove List
-            appContext.setLists(
-              appContext.lists.filter((l) => l.getId() !== list.getId())
-            );
+            appContext.deleteList(list.id);
             //listService.deleteList(list.getId())
           }}
         >
@@ -72,7 +70,7 @@ export default function ToDoList({ list }: Props) {
           className="border mt-5 w-10 border-white-800 p-2 rounded-md m-auto block font-bold hover:bg-slate-200"
           onClick={() => {
             // Add ToDo To List
-            appContext.createToDoInList(list.id);
+            appContext.createToDoInList(list);
             //listService.updateList(list.id, list)
           }}
         >

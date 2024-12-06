@@ -15,11 +15,7 @@ export class DNDService {
 
         if (!todo || !fromList || !toList) return;
 
-        console.log(fromList, toList)
-
-        TodoService.transferTodo(fromList, toList, todo);
-
-        console.log(fromList, toList)
+        TodoService.transferTodo(fromList, toList, todo)
 
         editList(fromList.id, fromList)
         editList(toList.id, toList)
