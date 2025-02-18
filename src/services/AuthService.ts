@@ -1,22 +1,34 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 
 class AuthService {
     constructor(private baseUrl: string){}
 
     async tryLogin(email : string, password: string){
-        const res = await axios.post(`${this.baseUrl}/auth/login`, {email, password}, {
-            withCredentials: true
-        });
-        
-        return res.data.success;
+        try{
+            const res = await axios.post(`${this.baseUrl}/auth/login`, {email, password}, {
+                withCredentials: true
+            });
+            
+            return res.data;
+        } catch(err){
+            const e = err as AxiosError;
+            return e.response?.data;
+        }
     }
 
     async tryRegister(username: string, email: string, password: string){
-       const res = await axios.post(`${this.baseUrl}/auth/register`, {username, email, password}, {
-        withCredentials: true
-       })
+        try{
+            const res = await axios.post(`${this.baseUrl}/auth/register`, {username, email, password}, {
+                withCredentials: true
+            })
+
+            return res.data;
+        }
        
-       return res.data.success;
+        catch(err){
+            const e = err as AxiosError;
+            return e.response?.data;
+        }
     }
 
     async getMe(){

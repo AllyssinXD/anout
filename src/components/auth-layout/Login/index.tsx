@@ -10,13 +10,19 @@ export default function Login(){
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [error, setError] = useState('');
+
     const makeLogin = ()=>{
-        authService.tryLogin(email, password).then((success)=>{
+        authService.tryLogin(email, password).then(({success, message})=>{
           if(success) navigate('/');
+          else setError(message)
         })
     }
 
     return (<div className="space-y-6">
+      {error ? <div className=" p-2 rounded-md bg-red-200">
+            <label className="block text-sm/6 font-medium text-gray-900">{error}</label>
+        </div> : null}
       <div>
         <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Email address</label>
         <div className="mt-2">

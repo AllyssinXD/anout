@@ -14,20 +14,27 @@ export default function Register(){
 
     const [buttonEnabled, setButtonEnabled] = useState(false);
 
+    const [error, setError] = useState('');
+
     const makeSignUp = ()=>{
-        authService.tryRegister(username, email, password).then((success)=>{
+        authService.tryRegister(username, email, password).then(({success, message})=>{
           if(success) authService.tryLogin(email, password).then(success=>{
             if(success) navigate('/')
           })
+
+          else setError(message);
         })
     }
 
     useEffect(()=>{
-        if(password != confirmPass) setButtonEnabled(false);
+        if(password != confirmPass || !password) setButtonEnabled(false);
         else setButtonEnabled(true);
     },[password,confirmPass])
 
     return (<div className="space-y-6">
+        {error ? <div className=" p-2 rounded-md bg-red-200">
+            <label className="block text-sm/6 font-medium text-gray-900">{error}</label>
+        </div> : null}
         <div>
             <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">Username</label>
             <div className="mt-2">
