@@ -11,6 +11,14 @@ class AuthService {
         return res.data.success;
     }
 
+    async tryRegister(username: string, email: string, password: string){
+       const res = await axios.post(`${this.baseUrl}/auth/register`, {username, email, password}, {
+        withCredentials: true
+       })
+       
+       return res.data.success;
+    }
+
     async getMe(){
         const res = await axios.get(`${this.baseUrl}/auth/me`, {
             withCredentials: true
