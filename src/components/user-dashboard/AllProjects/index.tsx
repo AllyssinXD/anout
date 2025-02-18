@@ -5,21 +5,17 @@ import ProjectService from "../../../services/ProjectService";
 import ProjectEntity from "../../../entities/ProjectEntity";
 
 export default function AllProjects(){
-    const projectService = new ProjectService('anout-api-production.up.railway.app/api')
+    const projectService = new ProjectService('http://127.0.0.1:5000/api')
+
     const [projects, setProjects] = useState<ProjectEntity[]>([]);
     const navigate = useNavigate();
 
 
     useEffect(()=>{
-        console.log(projects)
-
-        projectService.loadProjects('674fda54600ace57a1b7ee0d').then(response=>{
-            console.log(response)
-        }).catch(error=>{
-            console.log(error)
+            
+        projectService.loadProjects().then(projects=>{
+            if(projects) setProjects(projects);
         })
-
-       
 
     },[])
 

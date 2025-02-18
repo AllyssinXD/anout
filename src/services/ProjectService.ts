@@ -7,16 +7,18 @@ class ProjectService {
   constructor(private baseUrl: string) {}
 
   // Função para adicionar uma nova lista a um projeto
-  async loadProjects(userId: string): Promise<ProjectEntity[]> {
-    if (!userId) {
-      throw new Error("userId are required.");
+  async loadProjects(): Promise<ProjectEntity[] | null> {
+    const response = await axios.get(`${this.baseUrl}/projects/`, {withCredentials:true});
+
+    if(response.status == 200){
+      const projects : ProjectEntity[] = [];
+      for(let i = 0; i < response.data.projects.length; i++){
+        projects.push(response.data.projects[i]);
+      }
+      return projects;
     }
-    return axios.get(`${this.baseUrl}/projects`, {
-        withCredentials: true,
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    });
+
+    else return null;
   }
 
   // Função para carregar listas de um projeto
