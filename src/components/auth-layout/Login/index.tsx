@@ -45,5 +45,8 @@ export default function Login(){
       <div>
         <button onClick={makeLogin} type="submit" className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Sign in</button>
       </div>
+      <div className="flex justify-center items-center">
+      <label>Dont have and account? <a className="hover:cursor-pointer font-medium text-indigo-600" onClick={()=>navigate('/register')}>Click Here</a></label>
+      </div>
     </div>);
 }
