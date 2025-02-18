@@ -11,7 +11,7 @@ class ListService {
    * @param token Token de autenticação.
    * @returns Nova entidade de lista criada.
    */
-  async addListToProject(project_id: string, token: string): Promise<ListEntity> {
+  async addListToProject(project_id: string): Promise<ListEntity> {
     if (!project_id) {
       throw new Error("Project ID is required.");
     }
@@ -20,9 +20,7 @@ class ListService {
       `${this.baseUrl}/projects/${project_id}/lists`,
       {}, // Corpo vazio para a requisição POST
       {
-        headers: {
-          Authorization: token ? token : "",
-        },
+        withCredentials: true
       }
     );
 
@@ -44,15 +42,13 @@ class ListService {
    * @param token Token de autenticação.
    * @returns Array de entidades de listas.
    */
-  async getListsByProjectId(project_id: string, token: string): Promise<ListEntity[]> {
+  async getListsByProjectId(project_id: string): Promise<ListEntity[]> {
     if (!project_id) {
       throw new Error("Project ID is required.");
     }
 
     const response = await axios.get(`${this.baseUrl}/projects/${project_id}/lists`, {
-      headers: {
-        Authorization: token ? token : "",
-      },
+      withCredentials: true
     });
 
     const data = response.data.lists as ListResponse[];
@@ -74,7 +70,7 @@ class ListService {
    * Exclui uma lista pelo ID.
    * @param list_id ID da lista.
    */
-  async deleteList(listId: string, token: string): Promise<void> {
+  async deleteList(listId: string): Promise<void> {
     if (!listId) {
       throw new Error("List ID is required.");
     }
@@ -83,9 +79,7 @@ class ListService {
       await axios.delete(
         `${this.baseUrl}/projects/lists/${listId}`,
         {
-          headers: {
-            Authorization: token?token:''
-          }
+          withCredentials: true
         }
       );
     } catch(err){
@@ -100,7 +94,7 @@ class ListService {
    * @param updatedList Instância da lista com os dados atualizados.
    * @returns Entidade da lista atualizada.
    */
-  async updateList(listId: string, updatedList: ListEntity, token: string): Promise<ListEntity> {
+  async updateList(listId: string, updatedList: ListEntity): Promise<ListEntity> {
     try {
       const response = await axios.put(
         `${this.baseUrl}/projects/lists/${listId}`,
@@ -113,9 +107,7 @@ class ListService {
             color: todo.color,
           })),
         }, {
-          headers: {
-            Authorization: token?token:''
-          }
+          withCredentials: true
         }
       );
 
@@ -145,12 +137,10 @@ class ListService {
     }
   }
 
-  async addToDoToList(list: ListEntity, token: string): Promise<ToDoEntity[]>{
+  async addToDoToList(list: ListEntity): Promise<ToDoEntity[]>{
     const response = await axios.post(
       `${this.baseUrl}/projects/lists/${list.id}/createToDo`,{},{
-        headers: {
-          Authorization: token?token:''
-        }
+        withCredentials: true
       }
     );
 

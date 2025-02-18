@@ -6,17 +6,9 @@ import ListEntity from "../entities/ListEntity";
 class ProjectService {
   constructor(private baseUrl: string) {}
 
-  async loadProject(projectId: string, token: string): Promise<ProjectEntity> {
-    if (!token) {
-      throw new Error("userId are required.");
-    }
-
+  async loadProject(projectId: string): Promise<ProjectEntity> {
     const response = await axios.get(`${this.baseUrl}/projects/${projectId}`, {
         withCredentials: true,
-        headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json'
-        }
     });
 
     const project = response.data.project;
@@ -35,17 +27,9 @@ class ProjectService {
   }
 
   // Função para adicionar uma nova lista a um projeto
-  async loadProjects(token: string): Promise<ProjectEntity[]> {
-    if (!token) {
-      throw new Error("userId are required.");
-    }
-
+  async loadProjects(): Promise<ProjectEntity[]> {
     const response = await axios.get(`${this.baseUrl}/projects`, {
-        withCredentials: true,
-        headers: {
-            'Authorization': token,
-            'Content-Type': 'application/json'
-        }
+        withCredentials: true
     });
 
     return response.data.projects;
@@ -96,9 +80,9 @@ class ProjectService {
     }
   }
 
-  async updateProject(projectId:string, newProject: ProjectEntity, token: string):Promise<ProjectEntity>{
+  async updateProject(projectId:string, newProject: ProjectEntity):Promise<ProjectEntity>{
     try {
-      const reponse = await axios.put(
+      await axios.put(
           `${this.baseUrl}/projects/${projectId}`, // Endpoint do backend para atualizar a lista
           {
               name: newProject.name,
@@ -110,10 +94,6 @@ class ProjectService {
           },
           {
             withCredentials: true,
-            headers: {
-                'Authorization': token,
-                'Content-Type': 'application/json'
-            }
           }
       );
 

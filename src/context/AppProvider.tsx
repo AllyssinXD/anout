@@ -5,7 +5,6 @@ import {
   ReactNode,
   createContext,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import { useParams } from "react-router";
@@ -41,11 +40,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     throw new Error("projectId is required");
   }
 
-  const listService = new ListService("http://localhost:5000/api");
-  const projectService = new ProjectService("http://localhost:5000/api");
-  const token =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwOWExMTA0OGIwMjlmZTdiYjllYjgiLCJpYXQiOjE3MzM0NDE2ODcsImV4cCI6MTczMzUyODA4N30.nFjqH4xw_9QLWA26gldxDeouqjU7PBGmAEfMHMseKxk";
-
+  const listService = new ListService("http://127.0.0.1:5000/api");
+  const projectService = new ProjectService("http://127.0.0.1:5000/api");
+  
   const [lists, setLists] = useState<ListEntity[]>([]);
   const [project, setProject] = useState<ProjectEntity | null>(null);
 
@@ -56,7 +53,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     //BACKEND
     listService
-      .addListToProject(projectId!, token)
+      .addListToProject(projectId)
       .then((newList) => {
         //FRONT END
         setLists([...lists, newList]);
@@ -72,7 +69,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     //BACKEND
     listService
-      .addToDoToList(list!, token)
+      .addToDoToList(list!)
       .then((newTodos) => {
         //FRONT END
         list.setTodos(newTodos);
@@ -90,7 +87,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     //BACK END
     listService
-      .getListsByProjectId(projectId!, token)
+      .getListsByProjectId(projectId!)
       .then((lists) => {
         //FRONT END
         setLists(lists);
@@ -106,7 +103,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
     //BACK END
     listService
-      .updateList(id!, updatedList, token)
+      .updateList(id!, updatedList)
       .then((list) => {
         console.log(list);
         //FRONT END
@@ -120,7 +117,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   function deleteList(id: string) {
     //BACK END
     listService
-      .deleteList(id, token)
+      .deleteList(id)
       .then(() => {
         //FRONT END
         const newLists = lists.filter((l) => l.id != id);
@@ -132,13 +129,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   }
 
   async function loadProject() {
-    const p = await projectService.loadProject(projectId!, token);
+    if (!projectId) return;
+    const p = await projectService.loadProject(projectId);
     setProject({ ...p } as ProjectEntity);
   }
 
   function updateProject(projectId: string, newProject: ProjectEntity) {
     projectService
-      .updateProject(projectId, newProject, token)
+      .updateProject(projectId, newProject)
       .then((project) => {
         return project;
       });

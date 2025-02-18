@@ -6,15 +6,13 @@ import ProjectEntity from "../../../entities/ProjectEntity";
 
 export default function AllProjects() {
   const navigate = useNavigate();
-  const projectService = new ProjectService("http://localhost:5000/api");
+  const projectService = new ProjectService("http://127.0.0.1:5000/api");
 
   const [projects, setProjects] = useState<ProjectEntity[]>([]);
 
   useEffect(() => {
     projectService
-      .loadProjects(
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzUwOWExMTA0OGIwMjlmZTdiYjllYjgiLCJpYXQiOjE3MzM0NDE2ODcsImV4cCI6MTczMzUyODA4N30.nFjqH4xw_9QLWA26gldxDeouqjU7PBGmAEfMHMseKxk"
-      )
+      .loadProjects()
       .then((fetchedProjects: ProjectEntity[]) => {
         setProjects(fetchedProjects);
       })
