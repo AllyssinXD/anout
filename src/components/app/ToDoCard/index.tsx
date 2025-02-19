@@ -13,12 +13,13 @@ export default function ToDoCard(props: {
     setIsHovered,
     style,
     textStyle,
+    setNodeRefDroppable
   } = useToDoCard(props);
 
   return (
     <>
       <div
-        ref={setNodeRef}
+        ref={(e)=>{setNodeRef(e); setNodeRefDroppable(e)}}
         className={`todocard relative w-full z-40 group bg-night min-h-10 mt-2 rounded-md m-auto`}
         style={style}
         {...attributes}

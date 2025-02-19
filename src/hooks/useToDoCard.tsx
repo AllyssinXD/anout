@@ -1,4 +1,4 @@
-import { useDndMonitor, useDraggable } from "@dnd-kit/core";
+import { useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
 import { useDraggingContext } from "../components/app/ToDoApp";
 import { useEffect, useState } from "react";
 import { ToDoEntity } from "../entities/ToDoEntity";
@@ -12,6 +12,10 @@ export default function useToDoCard({
 }) {
   const [dragging, setDragging] = useState(false);
   const setDraggingToDo = useDraggingContext();
+
+  const {setNodeRef: setNodeRefDroppable} = useDroppable({
+    id: "todo"+todo.id
+  });
 
   useDndMonitor({
     onDragStart() {
@@ -101,5 +105,6 @@ export default function useToDoCard({
     isHovered,
     setIsHovered,
     handleClick,
+    setNodeRefDroppable
   };
 }
