@@ -32,44 +32,47 @@ export default function Register(){
     },[password,confirmPass])
 
     return (<div className="space-y-6">
+      <div className="flex justify-center items-center"><h3 className="font-medium text-emerald">Sign up</h3></div>
         {error ? <div className=" p-2 rounded-md bg-red-200">
             <label className="block text-sm/6 font-medium text-gray-900">{error}</label>
         </div> : null}
         <div>
-            <label htmlFor="username" className="block text-sm/6 font-medium text-gray-900">Username</label>
+            <label htmlFor="username" className="block text-sm/6 text-gray-300">Username</label>
             <div className="mt-2">
-            <input onChange={(e)=>setUsername(e.target.value)} value={username} type="text" name="username" id="username" autoComplete="username" required className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+            <input onChange={(e)=>setUsername(e.target.value)} value={username} type="text" name="username" id="username" autoComplete="username" required className="block w-full border border-gray-400 rounded-md bg-transparent px-3 py-1.5 text-base text-gray-300 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
             </div>
         </div>
       <div>
-        <label htmlFor="email" className="block text-sm/6 font-medium text-gray-900">Email address</label>
+        <label htmlFor="email" className="block text-sm/6 text-gray-300">Email address</label>
         <div className="mt-2">
-          <input onChange={(e)=>setEmail(e.target.value)} value={email} type="email" name="email" id="email" autoComplete="email" required className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+          <input onChange={(e)=>setEmail(e.target.value)} value={email} type="email" name="email" id="email" autoComplete="email" required className="block w-full border border-gray-400 rounded-md bg-transparent px-3 py-1.5 text-base text-gray-300 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
         </div>
       </div>
 
       <div>
         <div className="flex items-center justify-between">
-          <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">Password</label>
+          <label htmlFor="password" className="block text-sm/6 text-gray-300">Password</label>
         </div>
         <div className="mt-2">
-          <input onChange={(e)=>setPassword(e.target.value)} value={password} type="password" name="password" id="password" autoComplete="current-password" required className="block w-full border border-gray-100 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+          <input onChange={(e)=>setPassword(e.target.value)} value={password} type="password" name="password" id="password" autoComplete="current-password" required className="block w-full border border-gray-400 rounded-md bg-transparent px-3 py-1.5 text-base text-gray-300 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
         </div>
       </div>
       <div>
       <div className="flex items-center justify-between">
-          <label htmlFor="password" className="block text-sm/6 font-medium text-gray-900">Confirm Password</label>
+          <label htmlFor="password" className="block text-sm/6 text-gray-300">Confirm Password</label>
         </div>
       <div className="mt-2">
-          <input onChange={(e)=>setConfirmPass(e.target.value)} value={confirmPass} type="password" name="password" id="password" autoComplete="current-password" required className="block w-full border border-gray-100 rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+          <input onChange={(e)=>setConfirmPass(e.target.value)} value={confirmPass} type="password" 
+            name="password" id="password" autoComplete="current-password" required 
+            className="block w-full border border-gray-400 rounded-md bg-transparent px-3 py-1.5 text-base text-gray-300 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
         </div>
         </div>
 
       <div>
-        <button onClick={buttonEnabled ? makeSignUp : ()=>{}} type="submit" className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-white shadow-xs ${buttonEnabled ? 'bg-indigo-600 hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600' : 'bg-gray-300'}`}>Sign up</button>
+        <button onClick={buttonEnabled ? makeSignUp : ()=>{}} type="submit" className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-dark shadow-xs ${buttonEnabled ? 'bg-emerald focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald' : 'bg-green-900 text-black opacity-30'}`}>Sign up</button>
       </div>
       <div className="flex justify-center items-center">
-      <label>Already have an account? <a className="hover:cursor-pointer font-medium text-indigo-600" onClick={()=>navigate('/login')}>Click Here</a></label>
+      <label className="text-gray-300">Already have an account? <a className="hover:cursor-pointer font-medium text-emerald" onClick={()=>navigate('/login')}>Click Here</a></label>
       </div>
     </div>);
 }

@@ -15,6 +15,7 @@ import Login from "./components/auth-layout/Login/index.tsx";
 import Register from "./components/auth-layout/Register/index.tsx";
 import AppProvider from "./context/AppProvider.tsx";
 import NotFound from "./components/NotFound.tsx";
+import ForgotPassword from "./components/auth-layout/ForgotPassword/index.tsx";
 
 Modal.setAppElement("#root");
 
@@ -40,6 +41,7 @@ createRoot(document.getElementById("root")!).render(
         <Route element={<AuthLayout />}>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-my-password" element={<ForgotPassword />} />
         </Route>
 
         <Route path="*" element={<NotFound />} />

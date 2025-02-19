@@ -33,7 +33,8 @@ export default function ToDoApp() {
     <DNDWrapper>
       <DraggingContext.Provider value={setDraggingToDo}>
         <div className="flex flex-col w-screen h-screen overflow-y-auto overflow-x-auto bg-gray-100">
-          <div className="fixed flex items-center h-12 w-screen bg-white px-10">
+          <div className="fixed flex items-center h-12 w-screen bg-white px-5">
+            <a onClick={()=>navigate("/")}><h3 className="hover:bg-gray-100 text-sm hover:cursor-pointer rounded-md font-medium p-2">Anout</h3></a>
             <input
               value={projectTitle}
               onChange={(e) => setProjectTitle(e.target.value)}
@@ -43,7 +44,7 @@ export default function ToDoApp() {
                 updatedProject.name = projectTitle;
                 appContext.updateProject(updatedProject.id, updatedProject);
               }}
-              className="w-64 uppercase text-lg font-bold"
+              className="hover:bg-gray-100 ml-5 p-2 rounded-md w-64 text-sm font-medium"
             />
           </div>
           <div className="flex min-w-96 mt-24">

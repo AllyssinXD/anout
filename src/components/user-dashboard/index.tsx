@@ -1,15 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
+import AuthService from "../../services/AuthService";
 
 function AccountArea(){
-    return <div className="userAccount p-4 flex items-center justify-between">
-                <div className="user-dropdown-button p-1 rounded-sm w-fit h-8 flex items-center cursor-pointer hover:bg-cyan-100">
-                    <img className="h-full rounded-full" src="/images/icons/user-icon-placeholder.jpg"/>
-                    <span className="text-sm mx-2">Alisson Santos Silva</span>
-                    <img className="h-1/2 opacity-80" src="/images/icons/dropdown-icon.png"/>
+    const authService = new AuthService('http://127.0.0.1:5000/api')
+
+    const [username, setUsername] = useState('');
+
+    useEffect(()=>{
+        authService.getMe().then(me=>{
+            if(!me) return;
+            setUsername(me.getUsername())
+        })
+    },[])
+
+    return <div className="text-gray-400 flex items-center justify-between mb-5">
+                <div className="group user-dropdown-button p-2 rounded-sm w-fit h-10 flex items-center cursor-pointer hover:bg-emerald">
+                    <img className="h-6 w-6 rounded-full" src="/images/icons/user-icon-placeholder.jpg"/>
+                    <span className="group-hover:text-dark text-[0.8rem] mx-2 w-24">{username}</span>
+                    <img className="h-1/2 brightness-[100] invert opacity-60 group-hover:invert-0 group-hover:opacity-100" src="/images/icons/dropdown-icon.png"/>
                 </div>
-                <div className="notifications-dropdown-button cursor-pointer w-8 h-8 rounded-sm hover:bg-cyan-100 flex justify-center items-center">
-                    <img className="h-1/2 opacity-80" src="/images/icons/bell.svg"/>
+                <div className="group notifications-dropdown-button cursor-pointer w-8 h-8 rounded-sm hover:bg-emerald flex justify-center items-center">
+                    <img className="h-1/2 brightness-[100] invert opacity-60 group-hover:invert-0 group-hover:opacity-100" src="/images/icons/bell.svg"/>
                 </div>
             </div>
 }
@@ -25,16 +37,16 @@ function MenuItem({id, label, iconUrl}: {id:string, label: string, iconUrl:strin
             <div 
                 onClick={()=>{navigate(id)}}
                 id={id}
-                className={`p-1 px-4 rounded-sm w-full h-8 flex items-center cursor-pointer hover:bg-gray-100 ${location.pathname.replace("/", "") == id ? "bg-cyan-100" : ""}`}
+                className={`p-2 rounded-sm my-2 w-full h-10 flex justify-left items-center cursor-pointer ${location.pathname.replace("/", "") == id ? "bg-emerald text-dark" : "text-white"}`}
             >
-                <img className="h-4/5 opacity-80 mr-4" src={iconUrl}/>
-                <span className="text-xs mx-2">{label}</span>
+                <img className={`${location.pathname.replace("/", "") != id ? "brightness-[100] invert opacity-60" : "brightness-[0]"} h-4 w-5 mr-2`} src={iconUrl}/>
+                <span className={`${location.pathname.replace("/", "") != id ? "text-gray-400" : "text-dark"} text-[0.8rem] w-[10rem]`}>{label}</span>
             </div>
         )
 }
 
 function PlanBlock(){
-    return <div className="h-32 my-5 border-y p-5 flex flex-col justify-center items-center">
+    return <div className="h-32 my-5 p-5 flex flex-col justify-center items-center">
             <img className="h-1/2" src="/images/icons/trophy-icon.png"/>
             <span className="text-xs">Your current plan is</span>
             <h3 className="text-md text-amber-600 font-bold">Beta Tester</h3>
@@ -56,13 +68,20 @@ export default function UserDashboard(){
         console.log("AAAAAAAAAAA")
     },[])
 
-    return <div className="flex">
+    return <div className="flex bg-dark">
 
-        <div className="sideMenu min-w-72 h-screen flex flex-col border overflow-y-auto">
-            <AccountArea/>
-            {menuItemsTop.map((item, i)=><MenuItem key={i} id={item.id} label={item.label} iconUrl={item.iconUrl}/> )}
-            <PlanBlock/>
-            {menuItemsBottom.map((item, i)=><MenuItem key={i} id={item.id} label={item.label} iconUrl={item.iconUrl}/> )}
+        <div className="h-screen p-2">
+            <div className="border border-night p-4 rounded-md min-w-64 h-full flex flex-col overflow-y-auto">
+                <h3 className="font-medium text-lg text-center mb-10 text-emerald">Anout</h3>
+                {
+                <AccountArea/>
+                }
+                {menuItemsTop.map((item, i)=><MenuItem key={i} id={item.id} label={item.label} iconUrl={item.iconUrl}/> )}
+                {
+                //<PlanBlock/>
+                }
+                {menuItemsBottom.map((item, i)=><MenuItem key={i} id={item.id} label={item.label} iconUrl={item.iconUrl}/> )}
+            </div>
         </div>
 
         <div className="content w-full">

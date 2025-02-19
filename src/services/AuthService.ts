@@ -1,4 +1,5 @@
 import axios, { AxiosError } from "axios";
+import UserEntity from "../entities/UserEntity";
 
 class AuthService {
     constructor(private baseUrl: string){}
@@ -31,17 +32,17 @@ class AuthService {
         }
     }
 
-    async getMe(){
+    async getMe(): Promise<UserEntity | null>{
         const res = await axios.get(`${this.baseUrl}/auth/me`, {
             withCredentials: true
         });
 
         if(res.status == 400) {
             console.log(res.data.message);
-            return
-        }
+            return null;
+        } 
 
-        return res.data.user;
+        return new UserEntity(res.data.user);
     }
 }
 

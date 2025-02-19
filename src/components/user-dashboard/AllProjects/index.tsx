@@ -23,12 +23,13 @@ export default function AllProjects() {
 
   return (
     <div className="flex flex-col p-4">
-      <h1 className="font-bold text-xl">All projects that you are in</h1>
+      <h1 className="font-bold text-xl text-gray-300">All projects that you are in</h1>
       <ul className="py-4">
-        {projects.map((project) => {
+        {projects.map((project, i) => {
           return (
             <li>
               <ProjectCard
+                key={i}
                 sharedWith={project.members}
                 name={project.name}
                 onClick={() => navigate("/project/" + project.id)}
@@ -63,7 +64,7 @@ function ProjectCard({
   return (
     <div
       onClick={() => onClick()}
-      className="w-56 h-32 bg-green-100 rounded-md p-4 hover:bg-green-700 hover:text-white cursor-pointer"
+      className="w-56 h-32 border border-night text-gray-300 rounded-md p-4 hover:bg-emerald hover:text-white cursor-pointer"
     >
       <h1 className="font-bold">{name}</h1>
       <p className="text-xs">{shared}</p>
