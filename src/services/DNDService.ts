@@ -7,7 +7,7 @@ export class DNDService {
         //handling only in front-end
         if (!active || !over) return;
 
-        console.log((over.id.toString() as string).includes("todo"))
+        //Verificar se Os Todos estão em Listas distintas
 
         if ((over.id.toString() as string).includes("todo")){
             const id = (active.id.toString() as string).replace("todo", "");
@@ -20,17 +20,30 @@ export class DNDService {
             if(!todoDragging) return
 
             const list = TodoService.getListFromTodo(lists, todoDrop);
+            const fromList = TodoService.getListFromTodo(lists, todoDragging);
 
             if(!list) return
 
-            let fromIndex = list.getTodos().findIndex(todo=>todo.id==id);
-            let toIndex = list.getTodos().findIndex(todo=>todo.id==overId);
+            if(fromList && fromList.id != list.id){
+                //Listas Distintas
+                fromList.removeTodo(todoDragging.id);
+                let toIndex = list.getTodos().findIndex(todo=>todo.id==overId);
+                list.getTodos().splice(toIndex,0,todoDragging)
 
-            let [item] = list.getTodos().splice(fromIndex, 1);
+                new ListService("http://127.0.0.1:5000/api").updateList(list.id, list)
+                new ListService("http://127.0.0.1:5000/api").updateList(fromList.id, fromList)
 
-            console.log(list.getTodos().splice(toIndex,0,item))
+            }else{
+                let fromIndex = list.getTodos().findIndex(todo=>todo.id==id);
+                let toIndex = list.getTodos().findIndex(todo=>todo.id==overId);
+
+                let [item] = list.getTodos().splice(fromIndex, 1);
+
+                console.log(list.getTodos().splice(toIndex,0,item))
+                new ListService("http://127.0.0.1:5000/api").updateList(list.id, list)
+            }
             
-            new ListService("http://127.0.0.1:5000/api").updateList(list.id, list)
+            
         }
 
         else{
