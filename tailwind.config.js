@@ -7,10 +7,12 @@ export default {
   theme: {
     extend: {
       colors: {
-        kleinblue: "#3230A8",
-        dark: "#101013",
-        night: "#1E1E24",
-        emerald: "#2BC22B",
+        crimson: "#DE1544",
+        kleinblue: "#5D5DF0",
+        dark: "#0B0915",
+        night: "#0D1424",
+        emerald: "#c1dc45",
+        silver: "#CCCDCC"
       },
     },
   },

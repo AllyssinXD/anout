@@ -52,7 +52,7 @@ export default function Login(){
 
       <div>
         <button onClick={buttonEnabled?makeLogin:()=>{}} type="submit" className=
-        {`flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-dark shadow-xs ${buttonEnabled ? 'bg-emerald focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald' : 'bg-green-900 text-black opacity-30'}`}>Sign in</button>
+        {`flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-dark shadow-xs ${buttonEnabled ? 'bg-crimson focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crimson' : 'bg-crimson text-black opacity-30'}`}>Sign in</button>
       </div>
       <div className="flex justify-center items-center">
       <label className="text-gray-300">Dont have and account? <a className="hover:cursor-pointer text-emerald" onClick={()=>navigate('/register')}>Click Here</a></label>

@@ -54,7 +54,7 @@ export default function Register(){
           <label htmlFor="password" className="block text-sm/6 text-gray-300">Password</label>
         </div>
         <div className="mt-2">
-          <input onChange={(e)=>setPassword(e.target.value)} value={password} type="password" name="password" id="password" autoComplete="current-password" required className="block w-full border border-gray-400 rounded-md bg-transparent px-3 py-1.5 text-base text-gray-300 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
+          <input onChange={(e)=>setPassword(e.target.value)} value={password} type="password" name="password" id="password" autoComplete="current-password" required className="block w-full border border-gray-400 rounded-md bg-transparent px-3 py-1.5 text-base text-silver outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"/>
         </div>
       </div>
       <div>
@@ -69,7 +69,7 @@ export default function Register(){
         </div>
 
       <div>
-        <button onClick={buttonEnabled ? makeSignUp : ()=>{}} type="submit" className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-dark shadow-xs ${buttonEnabled ? 'bg-emerald focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald' : 'bg-green-900 text-black opacity-30'}`}>Sign up</button>
+        <button onClick={buttonEnabled ? makeSignUp : ()=>{}} type="submit" className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-dark shadow-xs ${buttonEnabled ? 'bg-crimson focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald' : 'bg-crimson text-black opacity-30'}`}>Sign up</button>
       </div>
       <div className="flex justify-center items-center">
       <label className="text-gray-300">Already have an account? <a className="hover:cursor-pointer font-medium text-emerald" onClick={()=>navigate('/login')}>Click Here</a></label>

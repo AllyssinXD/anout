@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function ForgotPassword(){
+
+    const navigate = useNavigate();
 
     const [email, setEmail] = useState('');
 
@@ -26,8 +29,10 @@ export default function ForgotPassword(){
                 </div>
             </div>
             <div className="mt-5">
-            <button onClick={buttonEnabled?()=>{setSent(true)}:()=>{}} type="submit" className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-dark shadow-xs ${buttonEnabled ? 'bg-emerald focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald' : 'bg-green-900 text-black opacity-30'}`}>Recover Account</button>
+            <button onClick={buttonEnabled?()=>{setSent(true)}:()=>{}} type="submit" className={`flex w-full justify-center rounded-md px-3 py-1.5 text-sm/6 font-semibold text-dark shadow-xs ${buttonEnabled ? 'bg-crimson focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald' : 'bg-crimson text-black opacity-30'}`}>Recover Account</button>
+            <label className="mt-5 flex justify-center items-center text-silver">You do renember your password? <a onClick={()=>navigate("/login")} className="hover:cursor-pointer ml-1 font-medium text-emerald">Sign in!</a></label>
             </div>
+
             </>
         }        
         </div>

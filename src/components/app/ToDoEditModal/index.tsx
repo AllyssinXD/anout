@@ -43,43 +43,48 @@ const TodoModal: React.FC<TodoModalProps> = ({
       isOpen={true}
       onRequestClose={closeModal}
       contentLabel="Editar To-do"
+      className={"bg-night w-[50rem] h-[90vh] p-5 rounded-md"}
     >
-      <div className="flex flex-col max-w-64 w-full h-full m-auto">
-        <h2 className="font-bold text-center text-2xl mb-4">Editar To-do</h2>
-        <label>Titulo:</label>
-        <input
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          placeholder="Título"
-          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        />
-        <label className="mt-10">Descrição:</label>
-        <textarea
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          placeholder="Descrição"
-          className="block w-full rounded-md border-0 py-1.5 pl-7 pr-20 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-        />
-        <div className="w-full flex justify-end mt-10">
+      <div className="size-full">
+      <div className="flex flex-col max-w-96 w-full h-full">
+        <div>
+          <input
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            placeholder="Título"
+            className="block w-full text-lg font-medium bg-transparent rounded-md border-[none] p-2 text-emerald"
+          />
+        </div>
+        <div className="mt-10">
+          <label className="block mb-5 text-emerald text-md font-medium">Descrição:</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            placeholder="Descrição"
+            className="block w-full max-h-64 h-64 p-2 bg-transparent rounded-md border-emerald text-silver focus:outline-crimson focus:bg-dark"
+          />
+        </div>
+        <div className="w-full flex mt-10">
           <button
-            className="ml-5 w-100 rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-400"
+            className="ml-5 w-[20rem] rounded-md bg-crimson px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-crimson"
             onClick={handleSaveChanges}
           >
             Salvar
           </button>
           <button
-            className="ml-5 w-100 rounded-md bg-red-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-400"
+            className="ml-5 w-[10rem] rounded-md bg-emerald px-3 py-2 text-sm font-semibold text-dark shadow-sm hover:bg-emerald"
             onClick={handleDeleteTodo}
           >
             Deletar
           </button>
           <button
-            className="ml-5 w-100 rounded-md bg-gray-500 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-400"
+            className="ml-5 w-100 rounded-md bg-dark px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-night"
             onClick={closeModal}
           >
             Cancelar
           </button>
         </div>
+      </div>
       </div>
     </Modal>
   );

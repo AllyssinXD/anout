@@ -25,7 +25,7 @@ export default function ToDoList({ list }: Props) {
   return (
     <div
       ref={setNodeRef}
-      className={`relative container bg-white p-4 rounded-lg ${
+      className={`relative container bg-night p-4 rounded-lg ${
         isOver ? "shadow-xl" : "shadow-md"
       } z-0 mx-5 min-w-64 w-64 h-fit`}
     >
@@ -37,10 +37,10 @@ export default function ToDoList({ list }: Props) {
             list.setTitle(newTitle);
             appContext.editList(list.id, list);
           }}
-          className="w-32 font-bold"
+          className="w-32 bg-transparent text-silver font-bold"
         />
         <button
-          className="border w-10 h-10 border-white-800 p-2 rounded-md block font-bold hover:bg-slate-200"
+          className="group w-8 h-8  p-2 rounded-md block font-bold hover:bg-crimson"
           onClick={() => {
             //Remove List
             appContext.deleteList(list.id);
@@ -50,6 +50,7 @@ export default function ToDoList({ list }: Props) {
           <img
             style={{ transform: "rotate(45deg)" }}
             src="/images/icons/add.svg"
+            className="brightness-0 invert h-full"
           />
         </button>
       </div>
@@ -67,14 +68,14 @@ export default function ToDoList({ list }: Props) {
         })}
 
         <button
-          className="border mt-5 w-10 border-white-800 p-2 rounded-md m-auto block font-bold hover:bg-slate-200"
+          className="mt-5 w-8 p-2 rounded-md m-auto block font-bold hover:bg-crimson"
           onClick={() => {
             // Add ToDo To List
             appContext.createToDoInList(list);
             //listService.updateList(list.id, list)
           }}
         >
-          <img src="/images/icons/add.svg" />
+          <img src="/images/icons/add.svg" className="brightness-0 invert"/>
         </button>
       </div>
 

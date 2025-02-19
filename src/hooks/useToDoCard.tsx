@@ -77,9 +77,9 @@ export default function useToDoCard({
   const textStyle = {
     color: isHovered
       ? colorWhite
-        ? "rgb(255,255,255)"
-        : "rgb(0,0,0)"
-      : "rgb(0,0,0)",
+        ? "#cccdcc"
+        : "#0B0915"
+      : "#cccdcc",
   };
 
   const handleClick = () => {

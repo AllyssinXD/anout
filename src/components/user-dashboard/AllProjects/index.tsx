@@ -22,8 +22,8 @@ export default function AllProjects() {
   }, []);
 
   return (
-    <div className="flex flex-col p-4">
-      <h1 className="font-bold text-xl text-gray-300">All projects that you are in</h1>
+    <div className="flex flex-col p-4 rounded-md bg-night">
+      <h1 className="font-bold text-xl text-silver">All projects that you are in</h1>
       <ul className="py-4">
         {projects.map((project, i) => {
           return (
@@ -64,9 +64,9 @@ function ProjectCard({
   return (
     <div
       onClick={() => onClick()}
-      className="w-56 h-32 border border-night text-gray-300 rounded-md p-4 hover:bg-emerald hover:text-white cursor-pointer"
+      className="w-56 h-32 border-2 border-crimson text-silver rounded-md p-4 hover:bg-crimson hover:text-white cursor-pointer"
     >
-      <h1 className="font-bold">{name}</h1>
+      <h1 className="font-bold text-emerald">{name}</h1>
       <p className="text-xs">{shared}</p>
     </div>
   );

@@ -19,7 +19,7 @@ export default function ToDoCard(props: {
     <>
       <div
         ref={setNodeRef}
-        className={`todocard relative w-full z-40 group bg-white min-h-10 mt-2 rounded-md border m-auto border-white-500`}
+        className={`todocard relative w-full z-40 group bg-night min-h-10 mt-2 rounded-md m-auto`}
         style={style}
         {...attributes}
         {...listeners}
@@ -32,7 +32,7 @@ export default function ToDoCard(props: {
           style={{ backgroundColor: props.todo.color }}
         ></div>
         <h3
-          className="z-10 p-2 text-sm flex cursor-pointer group-hover:text-white"
+          className="z-10 p-2 text-sm flex cursor-pointer"
           style={textStyle}
         >
           {props.todo.title}

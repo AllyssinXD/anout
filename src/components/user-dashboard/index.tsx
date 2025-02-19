@@ -14,13 +14,13 @@ function AccountArea(){
         })
     },[])
 
-    return <div className="text-gray-400 flex items-center justify-between mb-5">
-                <div className="group user-dropdown-button p-2 rounded-sm w-fit h-10 flex items-center cursor-pointer hover:bg-emerald">
+    return <div className="text-silver flex items-center justify-between mb-5">
+                <div className="group user-dropdown-button p-2 rounded-sm w-fit h-10 flex items-center cursor-pointer hover:bg-crimson">
                     <img className="h-6 w-6 rounded-full" src="/images/icons/user-icon-placeholder.jpg"/>
                     <span className="group-hover:text-dark text-[0.8rem] mx-2 w-24">{username}</span>
                     <img className="h-1/2 brightness-[100] invert opacity-60 group-hover:invert-0 group-hover:opacity-100" src="/images/icons/dropdown-icon.png"/>
                 </div>
-                <div className="group notifications-dropdown-button cursor-pointer w-8 h-8 rounded-sm hover:bg-emerald flex justify-center items-center">
+                <div className="group notifications-dropdown-button cursor-pointer w-8 h-8 rounded-sm hover:bg-crimson flex justify-center items-center">
                     <img className="h-1/2 brightness-[100] invert opacity-60 group-hover:invert-0 group-hover:opacity-100" src="/images/icons/bell.svg"/>
                 </div>
             </div>
@@ -37,10 +37,10 @@ function MenuItem({id, label, iconUrl}: {id:string, label: string, iconUrl:strin
             <div 
                 onClick={()=>{navigate(id)}}
                 id={id}
-                className={`p-2 rounded-sm my-2 w-full h-10 flex justify-left items-center cursor-pointer ${location.pathname.replace("/", "") == id ? "bg-emerald text-dark" : "text-white"}`}
+                className={`p-2 rounded-sm my-2 w-full h-10 flex justify-left items-center cursor-pointer ${location.pathname.replace("/", "") == id ? "bg-crimson text-dark" : "text-silver"}`}
             >
-                <img className={`${location.pathname.replace("/", "") != id ? "brightness-[100] invert opacity-60" : "brightness-[0]"} h-4 w-5 mr-2`} src={iconUrl}/>
-                <span className={`${location.pathname.replace("/", "") != id ? "text-gray-400" : "text-dark"} text-[0.8rem] w-[10rem]`}>{label}</span>
+                <img className={`brightness-[0] invert h-4 w-5 mr-2`} src={iconUrl}/>
+                <span className={`text-silver text-[0.8rem] w-[10rem]`}>{label}</span>
             </div>
         )
 }
@@ -71,8 +71,8 @@ export default function UserDashboard(){
     return <div className="flex bg-dark">
 
         <div className="h-screen p-2">
-            <div className="border border-night p-4 rounded-md min-w-64 h-full flex flex-col overflow-y-auto">
-                <h3 className="font-medium text-lg text-center mb-10 text-emerald">Anout</h3>
+            <div className="bg-night p-4 rounded-md min-w-64 h-full flex flex-col overflow-y-auto">
+                <h3 className="font-medium text-lg text-center mb-10 text-silver">Anout</h3>
                 {
                 <AccountArea/>
                 }
@@ -84,7 +84,7 @@ export default function UserDashboard(){
             </div>
         </div>
 
-        <div className="content w-full">
+        <div className="content p-2 w-full">
             <Outlet/>
         </div>
         
