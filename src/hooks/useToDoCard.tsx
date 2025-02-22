@@ -11,14 +11,17 @@ export default function useToDoCard({
   openModal: (todo: ToDoEntity) => void;
 }) {
   const [dragging, setDragging] = useState(false);
-  const setDraggingToDo = useDraggingContext();
+  const draggingContext = useDraggingContext();
+
+  const [setDraggingToDo, _] = draggingContext || [];
 
   const {setNodeRef: setNodeRefDroppable} = useDroppable({
     id: "todo"+todo.id
   });
 
   useDndMonitor({
-    onDragStart() {
+    onDragStart(e) {
+      if(e.active.id.toString().includes("list")) return;
       setDragging(true);
       if (!setDraggingToDo) return;
       setDraggingToDo({
@@ -36,6 +39,7 @@ export default function useToDoCard({
     },
 
     onDragMove(e) {
+      if(e.active.id.toString().includes("list")) return;
       if (!setDraggingToDo) return;
       if (!e.active.rect.current.translated) return;
       if (!e.active.rect.current.translated.right) return;
@@ -54,7 +58,7 @@ export default function useToDoCard({
   });
 
   const { listeners, attributes, setNodeRef } = useDraggable({
-    id: todo.id,
+    id: "todo"+todo.id,
   });
 
   const rgbColor = todo.color.match(/\d+/g);

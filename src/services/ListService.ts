@@ -11,14 +11,18 @@ class ListService {
    * @param token Token de autenticação.
    * @returns Nova entidade de lista criada.
    */
-  async addListToProject(project_id: string): Promise<ListEntity> {
+  async addListToProject(project_id: string, position: number): Promise<ListEntity> {
     if (!project_id) {
       throw new Error("Project ID is required.");
     }
 
+    console.log(position)
+
     const response = await axios.post(
       `${this.baseUrl}/projects/${project_id}/lists`,
-      {}, // Corpo vazio para a requisição POST
+      {
+        position: position
+      }, // Corpo vazio para a requisição POST
       {
         withCredentials: true
       }
@@ -32,7 +36,8 @@ class ListService {
       project_id,
       list.createdAt,
       list.updatedAt,
-      list.todos
+      list.todos,
+      list.position
     );
   }
 
@@ -61,7 +66,8 @@ class ListService {
           list.projectId,
           new Date(list.createdAt),
           new Date(list.updatedAt),
-          list.todos
+          list.todos,
+          list.position
         )
     );
   }
@@ -158,6 +164,7 @@ interface ListResponse {
   createdAt: string;
   updatedAt: string;
   todos: [];
+  position: number;
 }
 
 interface ToDoResponse {

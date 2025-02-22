@@ -51,12 +51,17 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       throw new Error("projectId is required");
     }
 
+    console.log(lists)
+    console.log(lists.length)
+
     //BACKEND
     listService
-      .addListToProject(projectId)
+      .addListToProject(projectId, lists.length)
       .then((newList) => {
         //FRONT END
         setLists([...lists, newList]);
+        console.log("New List " + newList.position)
+        console.log(lists)
       })
       .catch((err) => {
         console.log(err);
@@ -119,6 +124,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     listService
       .deleteList(id)
       .then(() => {
+        console.log("DELETED!")
         //FRONT END
         const newLists = lists.filter((l) => l.id != id);
         setLists(newLists);

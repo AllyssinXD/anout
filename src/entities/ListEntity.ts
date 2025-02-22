@@ -7,6 +7,7 @@ class ListEntity {
   createdAt: Date; // Data de criação
   updatedAt: Date; // Última atualização
   todos: ToDoEntity[]; // Array de To-Dos associados à lista
+  position: number;
 
   constructor(
     id: string,
@@ -14,7 +15,8 @@ class ListEntity {
     projectId: string,
     createdAt: Date,
     updatedAt: Date,
-    todos: ToDoEntity[] = []
+    todos: ToDoEntity[] = [],
+    position: number
   ) {
     this.id = id;
     this.title = name;
@@ -22,6 +24,7 @@ class ListEntity {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.todos = todos;
+    this.position = position
   }
 
   getId(): string{
@@ -62,6 +65,14 @@ class ListEntity {
         return todo
     })
     this.todos = newTodos
+  }
+
+  getPosition(){
+    return this.position
+  }
+
+  setPosition(){
+    return this.position
   }
   
 }
