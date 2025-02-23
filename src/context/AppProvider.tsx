@@ -10,7 +10,7 @@ import {
 import { useParams } from "react-router";
 import ProjectService from "../services/ProjectService";
 
-interface AppContextProps {
+export interface AppContextProps {
   loadProject: () => Promise<void>;
   project: ProjectEntity | null;
   lists: ListEntity[];
@@ -21,6 +21,7 @@ interface AppContextProps {
   editList: (id: string, updatedList: ListEntity) => void;
   deleteList: (id: string) => void;
   updateProject: (projectId: string, newProject: ProjectEntity) => void;
+  updateOrder : (lists: ListEntity[]) => void;
 }
 
 export const AppContext = createContext<AppContextProps | null>(null);
@@ -51,17 +52,13 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       throw new Error("projectId is required");
     }
 
-    console.log(lists)
-    console.log(lists.length)
-
     //BACKEND
     listService
       .addListToProject(projectId, lists.length)
       .then((newList) => {
         //FRONT END
-        setLists([...lists, newList]);
-        console.log("New List " + newList.position)
-        console.log(lists)
+        const newLists = [...lists, newList].sort((a,b) => a.position - b.position)
+        setLists(newLists)
       })
       .catch((err) => {
         console.log(err);
@@ -93,32 +90,34 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     //BACK END
     listService
       .getListsByProjectId(projectId!)
-      .then((lists) => {
-        //FRONT END
-        setLists(lists);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }
-  function editList(id: string, updatedList: ListEntity) {
-    if (!projectId) {
-      throw new Error("projectId is required");
-    }
+      .then((loadedLists) => {
+        loadedLists.sort((a,b) => a.position - b.position)
 
-    //BACK END
-    listService
-      .updateList(id!, updatedList)
-      .then((list) => {
-        console.log(list);
         //FRONT END
-        const newLists = lists.map((l) => (l.id == list.id ? list : l));
-        setLists(newLists);
+        setLists(loadedLists);
+        console.log(lists)
       })
       .catch((err) => {
         console.log(err);
       });
   }
+
+  function editList(id: string, updatedList: ListEntity) {
+    listService.updateList(id, updatedList).then(updatedList=>{
+      console.log("Foi alterado a lista " + updatedList.title)
+      const newLists = lists.map(list=>list.id==updatedList.id?updatedList:list)
+      setLists(newLists)
+    })
+  }
+
+  function updateListOrder(lists: ListEntity[]){
+    console.log("Yes")
+    listService.updateListOrder(lists).then(newLists=>{
+      setLists(newLists)
+      console.log(newLists)
+    })
+  }
+
   function deleteList(id: string) {
     //BACK END
     listService
@@ -127,6 +126,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         console.log("DELETED!")
         //FRONT END
         const newLists = lists.filter((l) => l.id != id);
+        newLists.sort((a,b) => a.position - b.position)
         setLists(newLists);
       })
       .catch((err) => {
@@ -161,6 +161,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         editList,
         deleteList,
         updateProject,
+        updateOrder: updateListOrder
       }}
     >
       {children}

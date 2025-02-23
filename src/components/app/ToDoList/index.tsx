@@ -44,8 +44,6 @@ export default function ToDoList({ list }: Props) {
       },
   
       onDragMove(e) {
-        console.log(e.active.id + "list : " + list.id)
-        
         if(e.active.id.toString().includes("todo")) return;
         if(e.active.id.toString().replace("list", "") != list.id) return;
         if (!setDraggingList) return;
@@ -81,8 +79,10 @@ export default function ToDoList({ list }: Props) {
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
           onBlur={() => {
-            list.setTitle(newTitle);
-            appContext.editList(list.id, list);
+            const newList = list;
+            newList.setTitle(newTitle);
+            appContext.editList(list.id, newList);
+            console.log("DEU BLUR!!")
           }}
           className="w-full bg-transparent pl-2 py-1 text-silver text-sm font-bold"
         />

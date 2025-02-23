@@ -13,16 +13,16 @@ class ListEntity {
     id: string,
     name: string,
     projectId: string,
-    createdAt: Date,
-    updatedAt: Date,
+    createdAt: string,
+    updatedAt: string,
     todos: ToDoEntity[] = [],
     position: number
   ) {
     this.id = id;
     this.title = name;
     this.projectId = projectId;
-    this.createdAt = createdAt;
-    this.updatedAt = updatedAt;
+    this.createdAt = new Date(createdAt);
+    this.updatedAt = new Date(updatedAt);
     this.todos = todos;
     this.position = position
   }

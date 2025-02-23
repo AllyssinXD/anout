@@ -13,7 +13,7 @@ export default function DNDWrapper(props: { children: ReactNode }) {
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
-        delay: 120, // 250ms de espera antes de ativar o arrasto
+        delay: 250, // 250ms de espera antes de ativar o arrasto
         tolerance: 5, // Tolerância de 5px antes de cancelar o arrasto
       },
     })
@@ -27,11 +27,9 @@ export default function DNDWrapper(props: { children: ReactNode }) {
     <DndContext
       onDragEnd={({ active, over }: DragEndEvent) =>
         DNDService.handleDragEnd(
-          appContext.lists,
+          appContext,
           active,
-          over,
-          appContext.setLists,
-          appContext.editList
+          over
         )
       }
       sensors={sensors}

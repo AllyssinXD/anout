@@ -64,8 +64,8 @@ class ListService {
           list._id,
           list.title,
           list.projectId,
-          new Date(list.createdAt),
-          new Date(list.updatedAt),
+          list.createdAt,
+          list.updatedAt,
           list.todos,
           list.position
         )
@@ -105,42 +105,43 @@ class ListService {
       const response = await axios.put(
         `${this.baseUrl}/projects/lists/${listId}`,
         {
-          title: updatedList.getTitle(),
-          todos: updatedList.getTodos().map((todo) => ({
-            id: todo.id,
-            title: todo.title,
-            description: todo.description,
-            color: todo.color,
-          })),
+          newList : updatedList
         }, {
           withCredentials: true
         }
       );
 
       const updatedData = response.data.update as ListResponse;
+      console.log("RAW")
+      console.log(response.data.update)
 
-      console.log(updatedData)
-
-      // Atualiza os dados locais da lista com os dados retornados pelo backend
-      updatedList.setTitle(updatedData.title);
-      updatedList.setTodos(
-        updatedData.todos.map(
-          (todo: ToDoResponse) =>
-            new ToDoEntity(
-              todo.id,
-              todo.title,
-              todo.description,
-              todo.color
-            )
-        )
-      );
-      updatedList.updatedAt = new Date(updatedData.updatedAt);
-
-      return updatedList;
+      return new ListEntity(updatedData._id, updatedData.title, updatedData.projectId, updatedData.createdAt, updatedData.updatedAt, updatedData.todos, updatedData.position);
     } catch (error) {
       console.error("Failed to update list:", error);
       throw new Error("Failed to update list");
     }
+  }
+
+  async updateListOrder(lists: ListEntity[]) : Promise<ListEntity[]>{
+    if(lists.length > 2) {
+      console.log("NÃO PODE TER MAIS QUE DUAS LISTAS")
+      return []
+    }
+
+    const res = await axios.put(`${this.baseUrl}/projects/lists/order/update-list-order`, {
+      lists
+    }, {
+      withCredentials: true
+    })
+
+    const newReturnedLists = res.data.newLists as ListResponse[];
+
+    const newLists : ListEntity[] = []
+    newReturnedLists.forEach(returnedList => {
+      newLists.push(new ListEntity(returnedList._id, returnedList.title, returnedList.projectId, returnedList.createdAt, returnedList.updatedAt, returnedList.todos, returnedList.position))
+    });
+
+    return newLists
   }
 
   async addToDoToList(list: ListEntity): Promise<ToDoEntity[]>{

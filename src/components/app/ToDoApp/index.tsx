@@ -30,6 +30,12 @@ export default function ToDoApp() {
     setProjectTitle(appContext.project ? appContext.project.name : "");
   }, [appContext.project]);
 
+  useEffect(()=>
+    {
+      console.log(appContext.lists)
+    }
+  ,[appContext.lists])
+
   return (
     <DNDWrapper>
       <DraggingContext.Provider value={[setDraggingToDo, setDraggingList]}>
@@ -50,16 +56,8 @@ export default function ToDoApp() {
           </div>
           <div className="flex min-w-96 mt-24">
             {
-              appContext.lists.map((list,_, lists)=>{
-                for(let i = 0; i<lists.length;i++){
-                  console.log(list.position + " " + i)
-                  if(list.position == i){
-                    return <ToDoList list={list} key={i}/>
-                  }
-                  else if(!list.position){
-                    return <ToDoList list={list} key={i}/>
-                  }
-                }
+              appContext.lists.map((list)=>{
+                  return <ToDoList list={list} key={list.position}/>
               })
             }
             <button
