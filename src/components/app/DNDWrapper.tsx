@@ -6,8 +6,8 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { ReactNode } from "react";
-import { DNDService } from "../../../services/DNDService";
-import { useAppContext } from "../../../context/AppProvider";
+import { DNDService } from "../../services/DNDService";
+import { useAppContext } from "../../context/AppProvider";
 
 export default function DNDWrapper(props: { children: ReactNode }) {
   const sensors = useSensors(
@@ -26,12 +26,14 @@ export default function DNDWrapper(props: { children: ReactNode }) {
   return (
     <DndContext
       onDragEnd={({ active, over }: DragEndEvent) =>
-        DNDService.handleDragEnd(
-          appContext,
-          active,
-          over
-        )
+        DNDService.handleDragEnd(appContext, active, over)
       }
+      onDragStart={({ active }) =>
+        DNDService.handleDragStart(appContext, active)
+      }
+      onDragMove={({ active }) => {
+        DNDService.handleDragMove(appContext, active);
+      }}
       sensors={sensors}
     >
       {props.children}

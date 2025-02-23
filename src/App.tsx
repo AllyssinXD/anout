@@ -1,7 +1,7 @@
-import UserDashboard from './components/user-dashboard';
+import UserDashboard from "./components/user-dashboard/index.tsx";
 
 function App() {
-  return <UserDashboard/>
+  return <UserDashboard />;
 }
 
-export default App
+export default App;

@@ -4,6 +4,8 @@ import ListEntity from "../entities/ListEntity";
 import { ReactNode, createContext, useContext, useState } from "react";
 import { useParams } from "react-router";
 import ProjectService from "../services/ProjectService";
+import DraggingList from "../interfaces/DraggingListInterface";
+import DraggingTodo from "../interfaces/DraggingToDoInterface";
 
 export interface AppContextProps {
   loadProject: () => Promise<void>;
@@ -15,6 +17,10 @@ export interface AppContextProps {
   createToDoInList: (list: ListEntity) => void;
   editList: (id: string, updatedList: ListEntity) => void;
   deleteList: (id: string) => void;
+  draggingList: DraggingList | null;
+  draggingToDo: DraggingTodo | null;
+  setDraggingList: React.Dispatch<React.SetStateAction<DraggingList | null>>;
+  setDraggingToDo: React.Dispatch<React.SetStateAction<DraggingTodo | null>>;
   updateProject: (projectId: string, newProject: ProjectEntity) => void;
   updateOrder: (lists: ListEntity[]) => void;
 }
@@ -40,6 +46,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   const projectService = new ProjectService("http://127.0.0.1:5000/api");
 
   const [lists, setLists] = useState<ListEntity[]>([]);
+
+  const [draggingList, setDraggingList] = useState<DraggingList | null>(null);
+  const [draggingToDo, setDraggingToDo] = useState<DraggingTodo | null>(null);
+
   const [project, setProject] = useState<ProjectEntity | null>(null);
 
   const createNewList = () => {
@@ -147,6 +157,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         deleteList,
         updateProject,
         updateOrder: updateListOrder,
+        draggingList,
+        setDraggingList,
+        draggingToDo,
+        setDraggingToDo,
       }}
     >
       {children}

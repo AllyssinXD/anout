@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 
-import ProjectService from "../../../services/ProjectService";
-import ProjectEntity from "../../../entities/ProjectEntity";
+import ProjectService from "../../services/ProjectService";
+import ProjectEntity from "../../entities/ProjectEntity";
 
 export default function AllProjects() {
   const navigate = useNavigate();
@@ -23,7 +23,9 @@ export default function AllProjects() {
 
   return (
     <div className="flex flex-col p-4 rounded-md bg-night">
-      <h1 className="font-bold text-xl text-silver">All projects that you are in</h1>
+      <h1 className="font-bold text-xl text-silver">
+        All projects that you are in
+      </h1>
       <ul className="py-4">
         {projects.map((project, i) => {
           return (

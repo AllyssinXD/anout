@@ -1,23 +1,21 @@
-import ToDoCard from "../ToDoCard/index";
-import TodoModal from "../ToDoEditModal/index";
+import ToDoCard from "./ToDoCard";
+import TodoModal from "./ToDoEditModal";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-import { useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
-import { ToDoEntity } from "../../../entities/ToDoEntity";
-import ListEntity from "../../../entities/ListEntity";
-import { useAppContext } from "../../../context/AppProvider";
-import { useDraggingContext } from "../ToDoApp";
+import { useDraggable, useDroppable } from "@dnd-kit/core";
+import { ToDoEntity } from "../../entities/ToDoEntity";
+import ListEntity from "../../entities/ListEntity";
+import { useAppContext } from "../../context/AppProvider";
 
 interface Props {
   list: ListEntity;
 }
 
 export default function ToDoList({ list }: Props) {
-  const draggingContext = useDraggingContext();
   const appContext = useAppContext();
 
-  const [_, setDraggingList] = draggingContext || [];
+  const [beingDragged, setBeingDragged] = useState(false);
 
   const { isOver, setNodeRef } = useDroppable({
     id: "list" + list.getId(),
@@ -31,40 +29,16 @@ export default function ToDoList({ list }: Props) {
     id: "list" + list.getId(),
   });
 
-  useDndMonitor({
-    onDragStart(e) {
-      if (e.active.id.toString().includes("list")) return;
-      if (!setDraggingList) return;
-      setDraggingList({
-        title: list.title,
-        getX: () => 0,
-        getY: () => 0,
-        id: list.id,
-      });
-    },
-
-    onDragEnd() {
-      if (setDraggingList) setDraggingList(null);
-    },
-
-    onDragMove(e) {
-      if (e.active.id.toString().includes("todo")) return;
-      if (e.active.id.toString().replace("list", "") != list.id) return;
-      if (!setDraggingList) return;
-      if (!e.active.rect.current.translated) return;
-      if (!e.active.rect.current.translated.right) return;
-      setDraggingList({
-        title: list.title,
-        getX: () =>
-          e.active.rect.current.translated
-            ? e.active.rect.current.translated.right -
-              e.active.rect.current.translated?.width
-            : 0,
-        getY: () => e.active.rect.current.translated?.top || 0,
-        id: list.getId(),
-      });
-    },
-  });
+  //Effect to verify if this list is being dragged
+  useEffect(() => {
+    if (appContext.draggingList) {
+      if (appContext.draggingList.id.replace("list", "") == list.getId()) {
+        setBeingDragged(true);
+      }
+    } else {
+      setBeingDragged(false);
+    }
+  }, [appContext.draggingList]);
 
   const [newTitle, setNewTitle] = useState(list.getTitle());
   const [selectedTodo, setSelectedTodo] = useState<ToDoEntity | null>(null);
@@ -79,7 +53,9 @@ export default function ToDoList({ list }: Props) {
       {...listeners}
       className={`relative container bg-night p-4 rounded-lg ${
         isOver ? "shadow-xl" : "shadow-md"
-      } z-0 mx-5 min-w-64 w-64 h-fit`}
+      } z-0 mx-5 min-w-64 w-64 h-fit ${
+        beingDragged ? "border border-emerald" : ""
+      }`}
     >
       <div className="flex items-center justify-between">
         <input

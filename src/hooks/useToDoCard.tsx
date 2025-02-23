@@ -1,7 +1,7 @@
-import { useDndMonitor, useDraggable, useDroppable } from "@dnd-kit/core";
-import { useDraggingContext } from "../components/app/ToDoApp";
+import { useDraggable, useDroppable } from "@dnd-kit/core";
 import { useEffect, useState } from "react";
 import { ToDoEntity } from "../entities/ToDoEntity";
+import { useAppContext } from "../context/AppProvider";
 
 export default function useToDoCard({
   todo,
@@ -10,55 +10,36 @@ export default function useToDoCard({
   todo: ToDoEntity;
   openModal: (todo: ToDoEntity) => void;
 }) {
-  const [dragging, setDragging] = useState(false);
-  const draggingContext = useDraggingContext();
+  const appContext = useAppContext();
 
-  const [setDraggingToDo, _] = draggingContext || [];
-
-  const {setNodeRef: setNodeRefDroppable} = useDroppable({
-    id: "todo"+todo.id
+  const { setNodeRef: setNodeRefDroppable } = useDroppable({
+    id: "todo" + todo.id,
   });
 
-  useDndMonitor({
-    onDragStart(e) {
-      if(e.active.id.toString().includes("list")) return;
-      setDragging(true);
-      if (!setDraggingToDo) return;
-      setDraggingToDo({
-        title: todo.color,
-        getDescription: todo.getDescription,
-        color: todo.color,
-        getX: () => 0,
-        getY: () => 0,
-      });
-    },
+  const [dragging, setDragging] = useState(false);
 
-    onDragEnd() {
-      setDragging(false);
-      if (setDraggingToDo) setDraggingToDo(null);
-    },
+  useEffect(() => {
+    if (appContext.draggingToDo) {
+      //checks if is this todo
+      if (appContext.draggingToDo.id.replace("todo", "") == todo.id) {
+        setDragging(true);
+      } else {
+        setDragging(false);
+      }
+    }
+  }, [appContext.draggingToDo]);
 
-    onDragMove(e) {
-      if(e.active.id.toString().includes("list")) return;
-      if (!setDraggingToDo) return;
-      if (!e.active.rect.current.translated) return;
-      if (!e.active.rect.current.translated.right) return;
-      setDraggingToDo({
-        title: todo.title,
-        getDescription: () => todo.description,
-        color: todo.color,
-        getX: () =>
+  /* Saving this for calculating reference 
+    getX: () =>
           e.active.rect.current.translated
             ? e.active.rect.current.translated.right -
               e.active.rect.current.translated?.width
             : 0,
-        getY: () => e.active.rect.current.translated?.top || 0,
-      });
-    },
-  });
+    getY: () => e.active.rect.current.translated?.top || 0,
+  */
 
   const { listeners, attributes, setNodeRef } = useDraggable({
-    id: "todo"+todo.id,
+    id: "todo" + todo.id,
   });
 
   const rgbColor = todo.color.match(/\d+/g);
@@ -83,11 +64,7 @@ export default function useToDoCard({
   };
 
   const textStyle = {
-    color: isHovered
-      ? colorWhite
-        ? "#cccdcc"
-        : "#0B0915"
-      : "#cccdcc",
+    color: isHovered ? (colorWhite ? "#cccdcc" : "#0B0915") : "#cccdcc",
   };
 
   const handleClick = () => {
@@ -109,6 +86,6 @@ export default function useToDoCard({
     isHovered,
     setIsHovered,
     handleClick,
-    setNodeRefDroppable
+    setNodeRefDroppable,
   };
 }

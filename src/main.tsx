@@ -6,16 +6,16 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 import Modal from "react-modal";
 
-import AllProjects from "./components/user-dashboard/AllProjects/index.tsx";
-import Feedback from "./components/user-dashboard/Feedback/index.tsx";
-import ToDoApp from "./components/app/ToDoApp/index.tsx";
+import AllProjects from "./components/user-dashboard/AllProjects.tsx";
+import Feedback from "./components/user-dashboard/Feedback.tsx";
+import ToDoApp from "./components/app/ToDoApp.tsx";
 import UserDashboard from "./components/user-dashboard/index.tsx";
 import AuthLayout from "./components/auth-layout/index.tsx";
-import Login from "./components/auth-layout/Login/index.tsx";
-import Register from "./components/auth-layout/Register/index.tsx";
+import Login from "./components/auth-layout/Login.tsx";
+import Register from "./components/auth-layout/Register.tsx";
 import AppProvider from "./context/AppProvider.tsx";
 import NotFound from "./components/NotFound.tsx";
-import ForgotPassword from "./components/auth-layout/ForgotPassword/index.tsx";
+import ForgotPassword from "./components/auth-layout/ForgotPassword.tsx";
 
 Modal.setAppElement("#root");
 
