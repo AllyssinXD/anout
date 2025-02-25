@@ -26,6 +26,8 @@ export default function useToDoCard({
       } else {
         setDragging(false);
       }
+    } else {
+      setDragging(false);
     }
   }, [appContext.draggingToDo]);
 
@@ -45,7 +47,7 @@ export default function useToDoCard({
   const rgbColor = todo.color.match(/\d+/g);
   const [colorWhite, setColorWhite] = useState(false);
 
-  const [isHovered, setIsHovered] = useState(false);
+  const [isHover, setIsHovered] = useState(false);
 
   function calculateTextColor(rgbColor: RegExpMatchArray | null): boolean {
     //Return true if the color is bright enough to be black text
@@ -63,10 +65,10 @@ export default function useToDoCard({
     ["--color" as any]: todo.color,
   };
 
-  const textStyle = isHovered
+  const textStyle = isHover
     ? colorWhite
-      ? "text-dark"
-      : "text-silver"
+      ? "text-silver"
+      : "text-dark"
     : colorWhite
     ? "text-silver"
     : "text-dark";
@@ -87,7 +89,7 @@ export default function useToDoCard({
     setNodeRef,
     style,
     textStyle,
-    isHovered,
+    isHover,
     setIsHovered,
     handleClick,
     setNodeRefDroppable,

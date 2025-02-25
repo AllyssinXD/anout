@@ -2,7 +2,7 @@ import ProjectEntity from "../entities/ProjectEntity";
 import ListService from "../services/ListService";
 import ListEntity from "../entities/ListEntity";
 import { ReactNode, createContext, useContext, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import ProjectService from "../services/ProjectService";
 import DraggingList from "../interfaces/DraggingListInterface";
 import DraggingTodo from "../interfaces/DraggingToDoInterface";
@@ -37,6 +37,8 @@ export const useAppContext = () => {
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const { id: projectId } = useParams<{ id: string }>();
+
+  const navigate = useNavigate();
 
   if (!projectId) {
     throw new Error("projectId is required");
@@ -98,16 +100,17 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         loadedLists.sort((a, b) => a.position - b.position);
         setLists(loadedLists);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch(() => {
+        navigate("/login");
       });
   };
 
   const editList = (id: string, updatedList: ListEntity) => {
     listService.updateList(id, updatedList).then((updatedList) => {
-      const newLists = lists.map((list) =>
-        list.id === updatedList.id ? updatedList : list
-      );
+      const newLists = lists.map((list) => {
+        return list.id === updatedList.id ? updatedList : list;
+      });
+
       setLists(newLists);
     });
   };

@@ -60,6 +60,7 @@ class ListEntity {
   updateTodo(id: string, newTodo: ToDoEntity){
     const newTodos = this.todos.map((todo) => {
         if(todo.id === id){
+          console.log(todo)
             return newTodo
         }
         return todo

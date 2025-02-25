@@ -42,7 +42,9 @@ export class DNDService {
         const activeId = active.id;
         const overId = over.id;
 
+        console.log(activeId, overId)
         if(activeId.toString().includes("list") && overId.toString().includes("list")){
+            console.log("HERE")
             this.dragListOverList(appContext, activeId.toString(), overId.toString());
         }
 
@@ -53,6 +55,28 @@ export class DNDService {
         if(activeId.toString().includes("todo") && overId.toString().includes("list")){
             this.dragToDoOverList(appContext, activeId.toString(), overId.toString());
         }
+
+        if(activeId.toString().includes("list") && overId.toString().includes("todo")){
+            this.dragListOverTodo(appContext, activeId.toString(), overId.toString())
+        }
+    }
+
+    static dragListOverTodo(appContext: AppContextProps, activeId: string, overId: string){
+        activeId = activeId.replace("list", "")
+        overId = overId.replace("todo", "")
+
+        if(activeId == overId) return
+
+        const activeList = TodoService.getListById(appContext.lists, activeId)
+        const overTodo = TodoService.getTodoById(appContext.lists, overId)
+
+        if (!activeList || !overTodo) return;
+
+        const overTodoList = TodoService.getListFromTodo(appContext.lists, overTodo)
+
+        if(!overTodoList) return
+
+        appContext.updateOrder([overTodoList, activeList])
     }
 
     static dragListOverList(appContext: AppContextProps, activeId: string, overId: string){

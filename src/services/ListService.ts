@@ -63,16 +63,21 @@ class ListService {
       const data = response.data.lists as ListResponse[];
 
       return data.map(
-        (list) =>
-          new ListEntity(
+        (list) =>{
+          //Debug due date
+          console.log(list.todos);
+          // If due date is null, add a placeholder date of 2025-03-25
+          const todos = list.todos.map(todo => new ToDoEntity(todo.id, todo.title, todo.description, todo.dueDate ? new Date(todo.dueDate) : null, todo.done, todo.color, undefined, undefined,));
+          return new ListEntity(
             list._id,
             list.title,
             list.projectId,
             list.createdAt,
             list.updatedAt,
-            list.todos,
+            todos,
             list.position
           )
+        }
       );
     } catch (err) {
       console.error("Failed to load lists:", err);
@@ -122,7 +127,9 @@ class ListService {
 
       const updatedData = response.data.update as ListResponse;
 
-      return new ListEntity(updatedData._id, updatedData.title, updatedData.projectId, updatedData.createdAt, updatedData.updatedAt, updatedData.todos, updatedData.position);
+      const updatedDataTodos = updatedData.todos.map(todo => new ToDoEntity(todo.id, todo.title, todo.description, todo.dueDate ? new Date(todo.dueDate) : null, todo.done, todo.color, undefined, undefined));
+
+      return new ListEntity(updatedData._id, updatedData.title, updatedData.projectId, updatedData.createdAt, updatedData.updatedAt, updatedDataTodos, updatedData.position);
     } catch (error) {
       console.error("Failed to update list:", error);
       throw new Error("Failed to update list");
@@ -150,7 +157,8 @@ class ListService {
 
       const newLists : ListEntity[] = []
       newReturnedLists.forEach(returnedList => {
-        newLists.push(new ListEntity(returnedList._id, returnedList.title, returnedList.projectId, returnedList.createdAt, returnedList.updatedAt, returnedList.todos, returnedList.position))
+        const toDos = returnedList.todos.map(todo => new ToDoEntity(todo.id, todo.title, todo.description, todo.dueDate ? new Date(todo.dueDate) : null, todo.done, todo.color, undefined, undefined));
+        newLists.push(new ListEntity(returnedList._id, returnedList.title, returnedList.projectId, returnedList.createdAt, returnedList.updatedAt, toDos, returnedList.position))
       });
 
       return newLists
@@ -179,13 +187,25 @@ class ListService {
 /**
  * Interface que define o formato de uma resposta de lista do backend.
  */
+
+interface ToDoResponse {
+  id: string;
+  title: string;
+  description: string;
+  color: string;
+  createdAt: string | null;
+  updatedAt: string | null;
+  dueDate: string | null;
+  done: boolean;
+}
+
 interface ListResponse {
   _id: string;
   title: string;
   projectId: string;
   createdAt: string;
   updatedAt: string;
-  todos: [];
+  todos: ToDoResponse[];
   position: number;
 }
 

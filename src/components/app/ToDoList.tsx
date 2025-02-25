@@ -120,9 +120,9 @@ export default function ToDoList({ list }: Props) {
             list={list}
             todo={selectedTodo}
             updateTodo={() => {
-              list.updateTodo(selectedTodo.id, selectedTodo);
-              appContext.editList(list.id, list);
-              //listService.updateList(list.getId(), list)
+              const newList = list;
+              newList.updateTodo(selectedTodo.id, selectedTodo);
+              appContext.editList(list.id, newList);
             }}
             closeModal={() => {
               setSelectedTodo(null);
@@ -130,7 +130,6 @@ export default function ToDoList({ list }: Props) {
             removeTodo={() => {
               list.removeTodo(selectedTodo.id);
               appContext.editList(list.id, list);
-              //listService.updateList(list.getId(), list)
             }}
           />
         )

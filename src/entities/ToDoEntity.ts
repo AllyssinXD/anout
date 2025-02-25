@@ -6,17 +6,22 @@ export class ToDoEntity{
     createdAt: Date;
     updatedAt: Date;
     dueDate: Date | null;
+    done: boolean;
 
-    constructor(id: string, title: string, description: string, color?: string){
+    constructor(id: string, title: string, description: string, dueDate: Date | null, done: boolean, color?: string, createdAt?: Date, updatedAt?: Date){
+        //Debug due date
+        console.log(dueDate);
+        
         this.id = id;
         this.title = title;
         this.description = description;
         this.color = color ? color : `rgb(${Math.floor(Math.random()*255)},
          ${Math.floor(Math.random()*255)},
           ${Math.floor(Math.random()*255)})`;
-        this.createdAt = new Date();
-        this.updatedAt = new Date();
-        this.dueDate = null;
+        this.createdAt = createdAt ? createdAt : new Date();
+        this.updatedAt = updatedAt ? updatedAt : new Date();
+        this.dueDate = dueDate;
+        this.done = done;
     }
 
     getId(): string{
