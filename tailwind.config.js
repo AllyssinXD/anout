@@ -8,11 +8,10 @@ export default {
     extend: {
       colors: {
         crimson: "#DE1544",
-        kleinblue: "#5D5DF0",
-        dark: "#0B0915",
-        night: "#0D1424",
         emerald: "#c1dc45",
-        silver: "#CCCDCC"
+        silver: "#E0E0E0", // Ajustado para um branco acinzentado mais claro
+        night: "#1A202C", // Ajustado para uma cor escura menos intensa
+        dark: "#121826", // Ajustado para uma cor mais escura que night
       },
     },
   },

@@ -35,7 +35,7 @@ export default function ToDoCard(props: {
           className="z-10 w-1 h-full absolute top-0 left-0 rounded-md"
           style={{ backgroundColor: props.todo.color }}
         ></div>
-        <h3 className="z-10 p-2 text-sm flex cursor-pointer" style={textStyle}>
+        <h3 className={`z-11 p-2 text-sm flex cursor-pointer ${textStyle}`}>
           {props.todo.title}
         </h3>
       </div>

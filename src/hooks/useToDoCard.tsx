@@ -63,9 +63,13 @@ export default function useToDoCard({
     ["--color" as any]: todo.color,
   };
 
-  const textStyle = {
-    color: isHovered ? (colorWhite ? "#cccdcc" : "#0B0915") : "#cccdcc",
-  };
+  const textStyle = isHovered
+    ? colorWhite
+      ? "text-dark"
+      : "text-silver"
+    : colorWhite
+    ? "text-silver"
+    : "text-dark";
 
   const handleClick = () => {
     if (!dragging) {

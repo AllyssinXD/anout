@@ -27,7 +27,3 @@
 .todocard:hover{
   background-color: var(--color);
 }
-
-.todocard:hover h3{
-  color: var(--color)
-}

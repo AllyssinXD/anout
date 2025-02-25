@@ -3,6 +3,9 @@ export class ToDoEntity{
     title: string;
     description: string;
     color: string;
+    createdAt: Date;
+    updatedAt: Date;
+    dueDate: Date | null;
 
     constructor(id: string, title: string, description: string, color?: string){
         this.id = id;
@@ -11,6 +14,9 @@ export class ToDoEntity{
         this.color = color ? color : `rgb(${Math.floor(Math.random()*255)},
          ${Math.floor(Math.random()*255)},
           ${Math.floor(Math.random()*255)})`;
+        this.createdAt = new Date();
+        this.updatedAt = new Date();
+        this.dueDate = null;
     }
 
     getId(): string{
@@ -42,5 +48,13 @@ export class ToDoEntity{
             throw new Error("Invalid color");
         }
         this.color = `rgb(${r}, ${g}, ${b})`;
+    }
+
+    setDueDate(date: Date){
+        this.dueDate = date;
+    }
+
+    getDueDate(): Date | null{
+        return this.dueDate;
     }
 }
