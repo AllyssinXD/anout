@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import AuthService from "../../services/AuthService";
 import { useNavigate } from "react-router";
+import { useAuth } from "../../context/AuthProvider";
 
 export default function Login() {
   const navigate = useNavigate();
 
-  const authService = new AuthService("http://127.0.0.1:5000/api");
+  const authContext = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,11 +15,10 @@ export default function Login() {
 
   const [error, setError] = useState("");
 
-  const makeLogin = () => {
-    authService.tryLogin(email, password).then(({ success, message }) => {
-      if (success) navigate("/");
-      else setError(message);
-    });
+  const makeLogin = async () => {
+    const result = await authContext.onLogin!(email, password);
+    if (result && result.error) setError(result.msg);
+    else navigate("/dashboard");
   };
 
   useEffect(() => {

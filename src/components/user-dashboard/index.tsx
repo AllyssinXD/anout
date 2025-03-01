@@ -1,92 +1,143 @@
 import { useEffect, useState } from "react";
 import { Outlet, useLocation, useNavigate } from "react-router";
-import AuthService from "../../services/AuthService";
+import { useAuth } from "../../context/AuthProvider";
 
-function AccountArea(){
-    const authService = new AuthService('http://127.0.0.1:5000/api')
+function AccountArea() {
+  const navigate = useNavigate();
+  const authContext = useAuth();
 
-    const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
 
-    useEffect(()=>{
-        authService.getMe().then(me=>{
-            if(!me) return;
-            setUsername(me.getUsername())
-        })
-    },[])
+  useEffect(() => {
+    if (!authContext.authState?.authenticated) navigate("/login");
 
-    return <div className="text-silver flex items-center justify-between mb-5">
-                <div className="group user-dropdown-button p-2 rounded-sm w-fit h-10 flex items-center cursor-pointer hover:bg-crimson">
-                    <img className="h-6 w-6 rounded-full" src="/images/icons/user-icon-placeholder.jpg"/>
-                    <span className="group-hover:text-dark text-[0.8rem] mx-2 w-24">{username}</span>
-                    <img className="h-1/2 brightness-[100] invert opacity-60 group-hover:invert-0 group-hover:opacity-100" src="/images/icons/dropdown-icon.png"/>
-                </div>
-                <div className="group notifications-dropdown-button cursor-pointer w-8 h-8 rounded-sm hover:bg-crimson flex justify-center items-center">
-                    <img className="h-1/2 brightness-[100] invert opacity-60 group-hover:invert-0 group-hover:opacity-100" src="/images/icons/bell.svg"/>
-                </div>
-            </div>
+    authContext.getUser!().then((me) => {
+      if (!me) return;
+      setUsername(me.username);
+    });
+  }, []);
+
+  return (
+    <div className="text-silver flex items-center justify-between mb-5">
+      <div className="group user-dropdown-button p-2 rounded-sm w-fit h-10 flex items-center cursor-pointer hover:bg-crimson">
+        <img
+          className="h-6 w-6 rounded-full"
+          src="/images/icons/user-icon-placeholder.jpg"
+        />
+        <span className="group-hover:text-dark text-[0.8rem] mx-2 w-24">
+          {username}
+        </span>
+        <img
+          className="h-1/2 brightness-[100] invert opacity-60 group-hover:invert-0 group-hover:opacity-100"
+          src="/images/icons/dropdown-icon.png"
+        />
+      </div>
+      <div className="group notifications-dropdown-button cursor-pointer w-8 h-8 rounded-sm hover:bg-crimson flex justify-center items-center">
+        <img
+          className="h-1/2 brightness-[100] invert opacity-60 group-hover:invert-0 group-hover:opacity-100"
+          src="/images/icons/bell.svg"
+        />
+      </div>
+    </div>
+  );
 }
 
-function MenuItem({id, label, iconUrl}: {id:string, label: string, iconUrl:string, type?: string}){
-    const location = useLocation();
-    const navigate = useNavigate();
-    
-    //Compare location pathname with id, if equals, add class "bg-blue-100"
-    //Make sure that the pathname its only the part after the "/"
+function MenuItem({
+  id,
+  label,
+  iconUrl,
+}: {
+  id: string;
+  label: string;
+  iconUrl: string;
+  type?: string;
+}) {
+  const location = useLocation();
+  const navigate = useNavigate();
 
-    return (
-            <div 
-                onClick={()=>{navigate(id)}}
-                id={id}
-                className={`p-2 rounded-sm my-2 w-full h-10 flex justify-left items-center cursor-pointer ${location.pathname.replace("/", "") == id ? "bg-crimson text-dark" : "text-silver"}`}
-            >
-                <img className={`brightness-[0] invert h-4 w-5 mr-2`} src={iconUrl}/>
-                <span className={`text-silver text-[0.8rem] w-[10rem]`}>{label}</span>
-            </div>
-        )
+  //Compare location pathname with id, if equals, add class "bg-blue-100"
+  //Make sure that the pathname its only the part after the "/"
+
+  return (
+    <div
+      onClick={() => {
+        navigate(id);
+      }}
+      id={id}
+      className={`p-2 rounded-sm my-2 w-full h-10 flex justify-left items-center cursor-pointer ${
+        location.pathname.replace("/", "") == id
+          ? "bg-crimson text-dark"
+          : "text-silver"
+      }`}
+    >
+      <img className={`brightness-[0] invert h-4 w-5 mr-2`} src={iconUrl} />
+      <span className={`text-silver text-[0.8rem] w-[10rem]`}>{label}</span>
+    </div>
+  );
 }
 
-function PlanBlock(){
-    return <div className="h-32 my-5 p-5 flex flex-col justify-center items-center">
-            <img className="h-1/2" src="/images/icons/trophy-icon.png"/>
-            <span className="text-xs">Your current plan is</span>
-            <h3 className="text-md text-amber-600 font-bold">Beta Tester</h3>
-        </div>
+function PlanBlock() {
+  return (
+    <div className="h-32 my-5 p-5 flex flex-col justify-center items-center">
+      <img className="h-1/2" src="/images/icons/trophy-icon.png" />
+      <span className="text-xs">Your current plan is</span>
+      <h3 className="text-md text-amber-600 font-bold">Beta Tester</h3>
+    </div>
+  );
 }
 
-export default function UserDashboard(){
-    const menuItemsTop = [
-        {id: "recents", label: "Recents", iconUrl: "/images/icons/clock.svg"},
-        {id: "all-projects", label: "All Projects", iconUrl: "/images/icons/file.svg"},
-        {id: "shared", label: "Shared", iconUrl: "/images/icons/shared.svg"},
-    ]
+export default function UserDashboard() {
+  const menuItemsTop = [
+    { id: "recents", label: "Recents", iconUrl: "/images/icons/clock.svg" },
+    {
+      id: "all-projects",
+      label: "All Projects",
+      iconUrl: "/images/icons/file.svg",
+    },
+    { id: "shared", label: "Shared", iconUrl: "/images/icons/shared.svg" },
+  ];
 
-    const menuItemsBottom = [
-        {id: "send-feedback", label: "Send Feedback", iconUrl: "/images/icons/like.svg"},
-    ]
+  const menuItemsBottom = [
+    {
+      id: "send-feedback",
+      label: "Send Feedback",
+      iconUrl: "/images/icons/like.svg",
+    },
+  ];
 
-    useEffect(()=>{
-        console.log("AAAAAAAAAAA")
-    },[])
-
-    return <div className="flex bg-dark">
-
-        <div className="h-screen p-2">
-            <div className="bg-night p-4 rounded-md min-w-64 h-full flex flex-col overflow-y-auto">
-                <h3 className="font-medium text-lg text-center mb-10 text-silver">Anout</h3>
-                {
-                <AccountArea/>
-                }
-                {menuItemsTop.map((item, i)=><MenuItem key={i} id={item.id} label={item.label} iconUrl={item.iconUrl}/> )}
-                {
-                //<PlanBlock/>
-                }
-                {menuItemsBottom.map((item, i)=><MenuItem key={i} id={item.id} label={item.label} iconUrl={item.iconUrl}/> )}
-            </div>
+  return (
+    <div className="flex bg-dark">
+      <div className="h-screen p-2">
+        <div className="bg-night p-4 rounded-md min-w-64 h-full flex flex-col overflow-y-auto">
+          <h3 className="font-medium text-lg text-center mb-10 text-silver">
+            Anout
+          </h3>
+          {<AccountArea />}
+          {menuItemsTop.map((item, i) => (
+            <MenuItem
+              key={i}
+              id={item.id}
+              label={item.label}
+              iconUrl={item.iconUrl}
+            />
+          ))}
+          {
+            //<PlanBlock/>
+          }
+          {menuItemsBottom.map((item, i) => (
+            <MenuItem
+              key={i}
+              id={item.id}
+              label={item.label}
+              iconUrl={item.iconUrl}
+            />
+          ))}
         </div>
+      </div>
 
-        <div className="content p-2 w-full">
-            <Outlet/>
-        </div>
-        
-    </div>;
+      <div className="content p-2 w-full">
+        <Outlet />
+      </div>
+    </div>
+  );
 }

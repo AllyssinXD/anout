@@ -6,7 +6,9 @@ import ProjectEntity from "../../entities/ProjectEntity";
 
 export default function AllProjects() {
   const navigate = useNavigate();
-  const projectService = new ProjectService("http://127.0.0.1:5000/api");
+  const projectService = new ProjectService(
+    "https://anout-api.up.railway.app/api"
+  );
 
   const [projects, setProjects] = useState<ProjectEntity[]>([]);
 
@@ -40,7 +42,9 @@ export default function AllProjects() {
           );
         })}
         {projects.length == 0 && (
-          <p className="text-sm opacity-80">Theres no projects yet.</p>
+          <p className="text-sm text-silver opacity-80">
+            Theres no projects yet.
+          </p>
         )}
       </ul>
     </div>

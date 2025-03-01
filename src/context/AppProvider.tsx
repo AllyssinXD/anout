@@ -44,8 +44,10 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     throw new Error("projectId is required");
   }
 
-  const listService = new ListService("http://127.0.0.1:5000/api");
-  const projectService = new ProjectService("http://127.0.0.1:5000/api");
+  const listService = new ListService("https://anout-api.up.railway.app/api");
+  const projectService = new ProjectService(
+    "https://anout-api.up.railway.app/api"
+  );
 
   const [lists, setLists] = useState<ListEntity[]>([]);
 
@@ -111,12 +113,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         return list.id === updatedList.id ? updatedList : list;
       });
 
+      newLists.sort((a, b) => a.position - b.position);
       setLists(newLists);
     });
   };
 
   const updateListOrder = (lists: ListEntity[]) => {
     listService.updateListOrder(lists).then((newLists) => {
+      newLists.sort((a, b) => a.position - b.position);
       setLists(newLists);
     });
   };

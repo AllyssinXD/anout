@@ -44,7 +44,6 @@ export class DNDService {
 
         console.log(activeId, overId)
         if(activeId.toString().includes("list") && overId.toString().includes("list")){
-            console.log("HERE")
             this.dragListOverList(appContext, activeId.toString(), overId.toString());
         }
 
@@ -90,7 +89,7 @@ export class DNDService {
 
         if(!overList || !activeList) return
 
-        appContext.updateOrder([overList, activeList])
+        appContext.updateOrder([activeList, overList])
     }
     static dragToDoOverToDo(appContext: AppContextProps, activeId: string, overId: string){
         activeId = activeId.replace("todo", "")
